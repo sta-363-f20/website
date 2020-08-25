@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Welcome to Statistical Learning</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. D’Agostino McGowan" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Welcome to Statistical Learning
+### Dr. D’Agostino McGowan
+
+---
+
+
+
+
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+  &lt;span&gt;
+  Dr. Lucy D'Agostino McGowan
+&lt;/span&gt;
+&lt;/div&gt; 
+
+---
+
+
+
+## 👋
+
+##  Lucy D'Agostino McGowan
+
+&lt;i class="fa fa-envelope"&gt;&lt;/i&gt; &amp;nbsp; [mcgowald@wfu.edu](mailto:mcgowald@wfu.edu) &lt;br&gt;
+&lt;i class="fa fa-university"&gt;&lt;/i&gt; &amp;nbsp; Manchester 342 &lt;br&gt;
+&lt;i class="fa fa-calendar"&gt;&lt;/i&gt; &amp;nbsp; Wed 10:00-11:00a, Thu 10:00-11:00a
+
+---
+
+class: middle, center
+
+Everything you will need will be posted at:
+
+# [bit.ly/sta-363-f20](http://bit.ly/sta-363-f20)
+
+---
+
+# Statistical Learning Problems
+
+.pull-left[
+* Identify risk factors for breast cancer
+]
+
+.pull-right[
+![](img/01/breast-cancer.jpg)
+]
+
+.my-footer[.small[Dr. Lucy D'Agostino McGowan _adapted from slides by Hastie &amp; Tibshirani_
+]]
+
+---
+
+# Statistical Learning Problems
+
+.pull-left[
+&lt;font color="grey"&gt;
+* Identify risk factors for breast cancer
+&lt;/font&gt;
+* Customize an email spam detection system
+]
+
+.pull-right[
+* **Data**: 4601 labeled emails sent to _George_ who works at _HP Labs_ 
+* **Input features**: frequencies of words and punctuation
+]
+
+| george | you | hp | free | ! | edu | remove
+--|-----|-----|----|-----|-----|----|------
+**spam** | 0.00 | 2.26 | 0.02 | 0.52 | 0.51 | 0.01 | 0.28
+**email** | 2.27 | 1.27 | 0.90 | 0.07 | 0.11 | 0.29 | 0.01
+
+.my-footer[.small[Dr. Lucy D'Agostino McGowan _adapted from slides by Hastie &amp; Tibshirani_
+]]
+
+---
+
+
+# Statistical Learning Problems
+
+.pull-left[
+&lt;font color="grey"&gt;
+* Identify risk factors for breast cancer
+* Customize an email spam detection system
+&lt;/font&gt;
+* Identify numbers in handwritten zip code
+]
+
+.pull-right[
+![](img/01/zipcode.png)
+]
+
+.my-footer[.small[Dr. Lucy D'Agostino McGowan _adapted from slides by Hastie &amp; Tibshirani_
+]]
+
+---
+
+# Statistical Learning Problems
+
+.pull-left[
+&lt;font color="grey"&gt;
+* Identify risk factors for breast cancer
+* Customize an email spam detection system
+* Identify numbers in handwritten zip code
+&lt;/font&gt;
+* Establish the relationship between variables in population survey data
+]
+
+.pull-right[
+Income survey data for males from the central Atlantic region of US, 2009
+
+&lt;img src = "img/01/wage1.png" height = 350&gt;&lt;/img&gt;
+
+]
+
+.my-footer[.small[Dr. Lucy D'Agostino McGowan _adapted from slides by Hastie &amp; Tibshirani_
+]]
+
+---
+
+# Statistical Learning Problems
+
+.pull-left[
+&lt;font color="grey"&gt;
+* Identify risk factors for breast cancer
+* Customize an email spam detection system
+* Identify numbers in handwritten zip code
+* Establish the relationship between variables in population survey data
+&lt;/font&gt;
+* Classify pixels of an image
+]
+
+
+.pull-right[
+&lt;img src = "img/01/land-use.png" height = 300&gt;&lt;/img&gt;
+.small[
+Usage `\(\in\)` {red soil, cotton, vegetation stubble, mixture, gray soil, damp
+gray soil}
+]
+]
+
+.my-footer[.small[Dr. Lucy D'Agostino McGowan _adapted from slides by Hastie &amp; Tibshirani_
+]]
+
+---
+
+## ✌️ types of statistical learning
+
+.large[
+* Supervised Learning
+* Unsupervised Learning
+]
+---
+
+## Supervised Learning
+
+.my-footer[.small[Dr. Lucy D'Agostino McGowan _adapted from slides by Hastie &amp; Tibshirani_
+]]
+
+* **outcome variable**: `\(Y\)`, (dependent variable,
+response, target)
+--
+
+* **predictors**: vector of `\(p\)` predictors, `\(X\)`, (inputs,
+regressors, covariates, features, independent variables)
+--
+
+* In the **regression problem**, `\(Y\)` is quantitative (e.g price,
+blood pressure)
+--
+
+* In the **classification** problem, `\(Y\)` takes values in a finite,
+unordered set (survived/died, digit 0-9, cancer class of
+tissue sample)
+--
+
+* We have **training data** `\((x_1, y_1), \dots, (x_N, y_N)\)`. These are
+observations (examples, instances) of these measurements
+
+---
+
+## Supervised Learning
+
+.question[
+What do you think are some objectives here?
+]
+
+--
+
+### Objectives
+
+* Accurately predict unseen test cases
+* Understand which inputs affect the outcome, and how
+* Assess the quality of our predictions and inferences
+
+.my-footer[.small[Dr. Lucy D'Agostino McGowan _adapted from slides by Hastie &amp; Tibshirani_
+]]
+---
+
+## Unsupervised Learning
+
+.my-footer[.small[Dr. Lucy D'Agostino McGowan _adapted from slides by Hastie &amp; Tibshirani_
+]]
+
+* No outcome variable, just a set of predictors (features)
+measured on a set of samples
+--
+
+* objective is more fuzzy -- find groups of samples that
+behave similarly, find features that behave similarly, find
+linear combinations of features with the most variation
+--
+
+* difficult to know how well your are doing
+--
+
+* different from supervised learning, but can be useful as a
+pre-processing step for supervised learning
+
+
+---
+class: center, middle
+
+# Let's go!
+
+---
+
+## Log in to RStudio Pro
+
+- **Note:** if you are off campus, you will need to use a [VPN to connect](https://is.wfu.edu/services/vpn/)
+- Go to [rstudio.hpc.ar53.wfu.edu:8787](rstudio.hpc.ar53.wfu.edu:8787)
+- Your username is your WFU username (typically the first part of your email)
+- The password is: **R2D2Star!**
+
+---
+
+## &lt;i class="fas fa-laptop"&gt;&lt;/i&gt; Create a classification model
+
+- Once you log on to RStudio Pro, click on this course's workspace "STA 363 - S20" then click "Projects"
+- You should see a project called `zipcode`, click it.
+- In the Files pane in the bottom right corner, spot the file called `zipcode.Rmd`. Open it, and then click on the "Knit" button. *You will likely see an pop-up error, click "Try Again"*
+- Go back to the file and change your name on top (in the `yaml` -- we'll talk about what this means later) and knit again.
+- Then, scroll to the `recipe` chunk, below **First we create a recipe**. Instead of creating a model to classify whether the number is **0** or not, create a model to predict whether the number is **1**. Knit again &amp; voila!
+
+&lt;font color="#E34132"&gt;
+Once done, place a green sticky on your laptop. If you have questions, place a pink sticky.
+&lt;/font&gt;
+
+---
+
+## Let's take a tour - class website
+
+.center[
+![](img/demo.png)
+]
+
+- Concepts introduced:
+  - How to find slides
+  - How to find assignments
+  - How to find RStudio Cloud
+  - How to get help
+  - How to find policies
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

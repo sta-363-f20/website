@@ -47,7 +47,6 @@ Academic dishonesty will not be tolerated. For other information on these matter
 #### Sharing code & responses
 
 * There are many online resources for sharing code (for example, StackOverflow) - you **may** use these resources but **must explicitly cite** where you have obtained code (both code you used directly and "paraphrased" code / code used as inspiration). Any reused code that is not explicitly cited will be treated as plagiarism.
-* You **may** discuss the content of assignments with others in this class. If you do so, please acknowledge your collaborator(s) at the top of your assignment, for example: "Collaborators: Gertrude Cox, Florence Nightingale David". Failure to acknowledge collaborators will result in a grade of 0. You **may not** copy code and/or answers **directly** from another student. If you copy someone else's work, both parties will receive a grade of 0.
 * Rather than copying someone else's work, ask for help. You are not alone in this course!
 
 ### Course components
@@ -58,7 +57,7 @@ You will have weekly reflections - these will be completed on Canvas. They will 
 
 #### Application exercises
 
-These will usually start in class and can be assigned to be finished by the next class meeting. 
+These will start in class and should to finished by the following day at 5pm ET. 
 
 #### Labs
 

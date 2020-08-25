@@ -18,5 +18,5 @@ Course website is live at https://sta-363-f20.netlify.com.
 
 # Notes for building the website:
 
-- Colors: Pantone Fall 2020 - Classic Blue - #92949B #0F4C81
+- Colors: Pantone Fall 2020 - Classic Blue - #0F4C81
   - To change, search & replace in `themes/material/static/css/material-kit.css`
