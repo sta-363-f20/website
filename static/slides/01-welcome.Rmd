@@ -244,17 +244,17 @@ class: center, middle
 
 ---
 
-## <i class="fas fa-laptop"></i> Create a classification model
+class: inverse
 
-- Once you log on to RStudio Pro, click on this course's workspace "STA 363 - S20" then click "Projects"
-- You should see a project called `zipcode`, click it.
-- In the Files pane in the bottom right corner, spot the file called `zipcode.Rmd`. Open it, and then click on the "Knit" button. *You will likely see an pop-up error, click "Try Again"*
+`r countdown::countdown(minutes = 5)`
+
+## <i class="fas fa-laptop"></i> `Penguin fun!`
+
+- Once you log on to RStudio Pro, find the project `01-welcome-penguins`, click it
+- In the Files pane in the bottom right corner, spot the file called `welcome-penguins.Rmd`. Open it, and then click on the "Knit" button. 
 - Go back to the file and change your name on top (in the `yaml` -- we'll talk about what this means later) and knit again.
-- Then, scroll to the `recipe` chunk, below **First we create a recipe**. Instead of creating a model to classify whether the number is **0** or not, create a model to predict whether the number is **1**. Knit again & voila!
+- Then, scroll to the `plot` chunk, below **Palmer Penguins**. Instead of looking at the relationship between flipper length and bill length, plot the relationship between flipper length and bill **depth**. _Hint, look at the full dataset at the bottom of the document for variable names, update the captions to match your new plot_. Knit again & voila!
 
-<font color="#E34132">
-Once done, place a green sticky on your laptop. If you have questions, place a pink sticky.
-</font>
 
 ---
 
