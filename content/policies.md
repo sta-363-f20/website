@@ -26,7 +26,7 @@ Students with disabilities who believe that they may need accommodations in the 
 
 #### Discussion:
 
-All course discussion will be via Canvas [Discussions](https://wakeforest.instructure.com/courses/18497/discussion_topics).
+All course discussion will be via Canvas [Discussions](https://wakeforest.instructure.com/courses/18503/discussion_topics).
 
 Guidelines for posting questions:
 
@@ -57,7 +57,7 @@ You will have weekly reflections - these will be completed on Canvas. They will 
 
 #### Application exercises
 
-These will start in class and should to finished by the following day at 5pm ET. 
+These will start in class and should be finished by 5pm ET the following day.
 
 #### Labs
 
