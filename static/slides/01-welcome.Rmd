@@ -35,9 +35,7 @@ library(tidyverse)
 ##  Lucy D'Agostino McGowan
 
 <i class="fa fa-envelope"></i> &nbsp; [mcgowald@wfu.edu](mailto:mcgowald@wfu.edu) <br>
-<i class="fa fa-university"></i> &nbsp; Manchester 342 <br>
-<i class="fa fa-calendar"></i> &nbsp; Wed 10:00-11:00a, Thu 10:00-11:00a
-
+<i class="fa fa-calendar"></i> &nbsp; Tues/Thurs 9:30a-10:45a, 12:30p-1:45p
 ---
 
 class: middle, center
