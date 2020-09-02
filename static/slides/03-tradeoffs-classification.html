@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Trade-offs: Accuracy and interpretability, bias and variance</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. D’Agostino McGowan" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Trade-offs: Accuracy and interpretability, bias and variance
+### Dr. D’Agostino McGowan
+
+---
+
+
+
+
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+&lt;span&gt;
+Dr. Lucy D'Agostino McGowan &lt;i&gt;adapted from slides by Hastie &amp; Tibshirani&lt;/i&gt;
+&lt;/span&gt;
+&lt;/div&gt; 
+
+
+
+---
+
+class: center, middle
+
+# Classification
+
+---
+
+## Notation
+
+* `\(Y\)` is the response variable. It is **qualitative**
+* `\(\mathcal{C}(X)\)` is the classifier that assigns a class `\(\mathcal{C}\)` to some future unlabeled observation, `\(X\)`
+--
+
+* Examples:
+  * Email can be classified as `\(\mathcal{C}=(\texttt{spam, not spam})\)`
+  * Written number is one of `\(\mathcal{C}=\{0, 1, 2, \dots, 9\}\)`
+
+---
+
+## Classification Problem
+
+.question[
+What is the goal?
+]
+
+--
+
+* Build a classifier `\(\mathcal{C}(X)\)` that assigns a class label from `\(\mathcal{C}\)` to a future unlabeled observation `\(X\)`  
+* Assess the uncertainty in each classification  
+* Understand the roles of the different predictors among `\(X = (X_1, X_2, \dots, X_p)\)`
+
+---
+
+&lt;center&gt;
+&lt;img src = "img/03/class1.png" height = 275&gt;&lt;/img&gt;
+&lt;/center&gt;
+
+Suppose there are `\(K\)` elements in `\(\mathcal{C}\)`, numbered `\(1, 2, \dots, K\)`
+
+`$$p_k(x) = P(Y = k|X=x), k = 1, 2, \dots, K$$`
+These are **conditional class probabilities** at `\(x\)`
+
+--
+
+.question[
+How do you think we could calculate this?
+]
+--
+
+* In the plot, you could examine the mini-barplot at `\(x = 5\)`
+---
+
+&lt;center&gt;
+&lt;img src = "img/03/class1.png" height = 275&gt;&lt;/img&gt;
+&lt;/center&gt;
+
+Suppose there are `\(K\)` elements in `\(\mathcal{C}\)`, numbered `\(1, 2, \dots, K\)`
+
+`$$p_k(x) = P(Y = k|X=x), k = 1, 2, \dots, K$$`
+These are **conditional class probabilities** at `\(x\)`
+
+* The **Bayes optimal classifier** at `\(x\)` is
+
+`$$\mathcal{C}(x) = j \textrm{ if } p_j(x) = \textrm{max}\{p_1(x), p_2(x), \dots, p_K(x)\}$$`
+
+???
+
+* Notice that probability is a **conditional** probability 
+* It is the probability that Y equals k given the observed preditor vector, `\(x\)` 
+* Let's say we were using a Bayes Classifier for a two class problem, Y is 1 or 2. We would predict that the class is one if `\(P(Y=1|X=x_0)&gt;0.5\)` and 2 otherwise
+
+---
+
+&lt;center&gt;
+&lt;img src = "img/03/class2.png" height = 275&gt;&lt;/img&gt;
+&lt;/center&gt;
+
+.question[
+What if this was our data and there were no points at exactly `\(x = 5\)`? Then how could we calculate this?
+]
+
+--
+* Nearest neighbor like before!
+
+--
+* This does break down as the dimensions grow, but the impact of `\(\mathcal{\hat{C}}(x)\)` is less than on `\(\hat{p}_k(x), k = 1,2,\dots,K\)`
+
+---
+
+## Accuracy
+
+* Misclassification error rate
+
+`$$Err_{\texttt{test}} = \textrm{Ave}_{i\in\texttt{test}}I[y_i\neq \mathcal{\hat{C}}(x_i)]$$`
+
+--
+* The **Bayes Classifier** using the true `\(p_k(x)\)` has the smallest error
+--
+
+* Some of the methods we will learn build structured models for `\(\mathcal{C}(x)\)` (support vector machines, for example)
+--
+
+* Some build structured models for `\(p_k(x)\)` (logistic regression, for example)
+
+???
+
+* the test error rate `\(\textrm{Ave}_{i\in\texttt{test}}I[y_i\neq \mathcal{\hat{C}}(x_i)]\)` is minimized on average by very simple classifier that assigns each observation to the most likely class, given its predictor values (that's the Bayes classifier)
+
+---
+
+## K-Nearest-Neighbors example
+
+&lt;img src = "img/03/knn1.png" height = 450&gt;&lt;/img&gt;
+
+???
+
+* Here is a simulated dataset of 100 observations in two groups, blue and orange
+* The purple dashed line represents the Bayes decision boundary
+* The orange background grid indicates the region where the test observations will be classified as orange, and the blue for the blue
+* We'd love to be able to use the Bayes classifier to but for real data, we don't know the conditional distribution of Y given X so computing the Bayes classifier is impossible
+* Alot of methods try to estimate the conditional distribution of Y given X and then classify a given observation to the class with the highest **estimated** probability
+* One method to do this is K-nearest neighbors
+
+---
+
+## KNN (K = 10)
+
+&lt;img src = "img/03/knn2.png" height = 450&gt;&lt;/img&gt;
+
+???
+
+* Again, the way KNN works is if K = 10, it is finding the 10 closest observations and calculating the probability of being orange or blue and will classify that point as such
+* So here is an example of K nearest neighbors where K is 10
+
+---
+
+## KNN
+
+![](img/03/knn3.png)
+
+???
+
+* Because this dataset has 100 data points, K can range from 1 to 100 where at 1, the error rate in the TRAINING data will be 0 but the test error rate may be really high. So we are trying to find the happy medium. The test error is going to have that same u-shape relationship, you want to find the bottom of that U
+
+---
+
+## Trade-offs
+
+![](img/03/errors.png)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
