@@ -19,6 +19,7 @@ lessons:
   - title: "Lab 01: Welcome to R!"
     lab: "01-hello-r.html"
   - date: "Thurs, Sep 3"
+    reading: "01-reading.html"
     title: "Trade-offs: Accuracy and interpretability, bias and variance (Regression)"
     slides: "03-tradeoffs-regression.html"
     video: "https://youtu.be/6VC4vm_WydQ"
