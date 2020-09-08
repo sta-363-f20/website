@@ -1,0 +1,40 @@
+---
+title: "NC bike crashes"
+author: "Lucy D'Agostino McGowan"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r load-packages, include=FALSE}
+library(tidyverse)
+library(dsbox)
+```
+
+*For each question you work on, set the `eval` chunk option to `TRUE` and knit*
+
+### Change the author of this document to your name
+
+### Filter for bike crashes in Residential development areas where driver age group is 0 to 19.
+
+```{r filter-age, eval=FALSE}
+ncbikecrash %>%
+  filter(---)
+```
+
+### Group by whether the driver had consumed alcohol and find the average driver age in each group
+
+```{r group-by-avg, eval = FALSE}
+ncbikecrash %>%
+  group_by(---) %>%
+  summarize(---)
+```
+
+### Add a variable crash_summer that is equal to 1 if the crash month is June, July, or August, and 0 otherwise
+
+```{r add-var, eval = FALSE}
+ncbikecrash %>%
+  mutate(crash_summer = case_when(
+    ---
+  ))
+```
+

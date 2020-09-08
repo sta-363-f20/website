@@ -1,0 +1,36 @@
+---
+title: "Visualizing Starwars characters"
+author: "Lucy D'Agostino McGowan and Mine Çetinkaya-Rundel"
+date: "`r Sys.Date()`"
+output: 
+  html_document: 
+    fig_height: 4
+    fig_width: 9
+---
+
+```{r load-packages, include=FALSE}
+library(tidyverse)
+```
+
+### Update the author with your name
+
+### Modify the following plot to change the color of all points to `"pink"`.
+
+```{r starwars-plot}
+ggplot(data = starwars, 
+       mapping = aes(x = height, y = mass, size = birth_year)) +
+  geom_point(color = "#30509C")
+```
+
+### Modify the following code to create a boxplot of height grouped by gender
+
+After editing the code, change the chunk option to `eval = TRUE`.
+
+```{r starwars-boxplot, eval = FALSE}
+ggplot(data = starwars,
+       mapping = aes(x = gender, y = height)) +
+  geom_---()
+```
+
+### Stretch goal: Add labels for title, x and y axes, and size of points.
+
