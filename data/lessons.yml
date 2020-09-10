@@ -41,7 +41,7 @@ lessons:
     video: "https://youtu.be/f0dftcLcw0M"
   - date: "Thur, Sep 10"
     title: "Cross-validation"
-    slides: "04-cv.html"
+    slides: "05-cv.html"
     video: "https://youtu.be/mKD3-228wFU"
     reading: "02-reading.html"
   - title: "Star Wars Application Exercise Solutions"
