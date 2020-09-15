@@ -1,0 +1,77 @@
+---
+title: "tidymodels"
+author: "Lucy D'Agostino McGowan"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r load-packages, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(tidymodels)
+library(ISLR)
+```
+
+*For each question you work on, set the `eval` chunk option to `TRUE` and knit*
+
+### Write a pipe that creates a model that uses `lm()` to fit a linear regression using tidymodels. Save it as `lm_spec` and look at the object. What does it return?
+
+```{r pipe}
+
+```
+
+
+### Fit the model from slide 13
+
+```{r tidymodel}
+
+```
+
+Does this give the same results lm?
+
+```{r lm}
+
+```
+
+### Edit the code below to add the original data to the predicted data.
+
+
+```{r, eval = FALSE}
+mpg_pred <- lm_fit %>% 
+  predict(new_data = Auto) %>% 
+  ---
+```
+
+### Copy the code below, fill in the blanks to fit a model on the **training** data then calculate the **test** RMSE.
+
+```{r, eval = FALSE}
+set.seed(100)
+Auto_split  <- ________
+Auto_train  <- ________
+Auto_test   <- ________
+lm_fit      <- fit(lm_spec, 
+                   mpg ~ horsepower, 
+                   data = ________)
+mpg_pred  <- ________ %>% 
+  predict(new_data = ________) %>% 
+  bind_cols(________)
+rmse(________, truth = ________, estimate = ________)
+```
+
+### Edit the code below to get the 5-fold cross validation error rate for the following model:
+
+$mpg = \beta_0 + \beta_1 horsepower + \beta_2 horsepower^2+ \epsilon$
+
+```{r, eval = FALSE}
+Auto_cv <- vfold_cv(Auto, v = 5)
+
+results <- fit_resamples(lm_spec,
+                         ----,
+                         resamples = ---)
+
+results %>%
+  collect_metrics()
+```
+
+* What do you think `rsq` is?
+
