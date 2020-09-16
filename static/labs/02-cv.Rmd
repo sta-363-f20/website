@@ -1,0 +1,112 @@
+---
+title: "Lab 02 - Cross Validation"
+output: 
+  tufte::tufte_html:
+    tufte_variant: "envisioned"
+    highlight: pygments
+    css: lab.css
+link-citations: yes
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(tidymodels)
+library(ISLR)
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE     # for regression output
+)
+```
+
+**Due:** Thursday 2020-09-22 at 5pm
+
+# Getting started
+
+- Go to today's module in Canvas - click "Download Lab .Rmd starter file"
+- Go to RStudio Pro. Create a **New Project** by clicking File > New Project > New Directory. Name the directory something sensible (for example `02-lab-cv`)
+- Upload the .Rmd starter file into this project and you're ready to go!
+
+
+# Packages
+
+In this lab we will work with two packages: `ISLR` which is a package that accompanies your textbook, `tidyverse` which is a collection of packages for doing data analysis in a "tidy" way, and `tidymodels` a collection of packages for statistical modeling.
+
+```{r eval = FALSE}
+library(tidyverse) 
+library(tidymodels)
+library(ISLR)
+```
+
+
+```{marginfigure}
+The top portion of your R Markdown file (between the three dashed lines) is called YAML. It stands for "YAML Ain't Markup Language". It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.
+```
+
+## YAML: 
+
+Open the R Markdown (Rmd) file in your project, change the author name to your name, and knit the document.
+
+# Data
+
+For this lab, we are using the `Auto` data from the `ISLR` package.
+
+# Exercises
+
+## Conceptual questions
+
+1. Explain how k-fold Cross Validation is implemented.
+
+2. What are the advantages / disadvantages of k-fold Cross Validation compared to the Validation Set approach? What are the advantages / disadvantages of k-fold Cross Validation compared to Leave-one-out Cross Validation?
+
+## K-fold cross validation
+
+We are trying to decide between three models of varying flexibility:
+
+* **Model 1:** $\texttt{mpg} = \beta_0 + \beta_1 \texttt{horsepower} + \epsilon$
+* **Model 2:** $\texttt{mpg} = \beta_0 + \beta_1 \texttt{horsepower} + \beta_2 \texttt{horsepower}^2 + \epsilon$
+* **Model 3:** $\texttt{mpg} = \beta_0 + \beta_1 \texttt{horsepower} + \beta_2 \texttt{horsepower}^2 + \beta_3 \texttt{horsepower}^3 + \epsilon$
+
+3. Using the `Auto` data, split the data into **two groups** a training data set, saved as `Auto_train` and a testing data set, saved as `Auto_test`. _Be sure to set a seed to ensure that you get the same result each time you knit your document_.
+
+
+
+```{marginfigure}
+You can use the `poly()` function to fit a model with a polynomial term. For example, to fit the model $y = \beta_0 + \beta_1 \texttt{x} + \beta_2 \texttt{x}^2 + \beta_3 \texttt{x}^3 + \epsilon$, you would run
+`lm(y ~ poly(x, 3), data = data)`
+```
+
+4. Fit the three models outlined above on the **training** data. Using the model created on the training data, predict `mpg` in the test data set for each model. What is the test RMSE for the three models? Which model would you choose?
+
+5. Fit the same three models, but instead of the validation set approach, perform 5-fold cross validation. Make sure to set a seed so you get the same answer each time you run the analysis. Calculate the overall 5-fold cross validation error for each of the three models. Which model would you chose?
+
+6. The tidymodels package allows you to do this faster! Instead of having a fit 3 (or more!) different models to determine the best flexibility, you can (1) create a **recipe** to specify how you would like to fit a model and then (2) **tune** this model to determine the best output. Copy the code before. What do you think the line `step_poly(horsepower, degree = tune())` does? Hint: you can run `?step_poly` in the Console to learn more about this function.
+
+```{r}
+auto_prep <- Auto %>%
+  recipe(mpg ~ horsepower) %>%
+  step_poly(horsepower, degree = tune())
+```
+
+
+7. To **tune** this model, you will replace `fit_resamples` with `tune_grid`. The pseudo code to do this is below - you may need to update some names to match what you have named objects in your document. Add the code to **tune** your model based on the code below.
+
+```{r, eval = FALSE}
+auto_tune <- tune_grid(lm_spec,
+          auto_prep,
+          resamples = auto_cv)
+```
+
+8. Using the `collect_metrics` function, look at the RMSE for `auto_tune`. Which `degree` is preferable?
+
+
+9. You can plot the output from Exercise 8 to make it a bit easier to determine. First, save your output from Exercise 8 as `auto_metrics`. Then _filter_ this data frame to only include rows where `.metric == "rmse"`. Save this filtered data frame as `auto_rmse`. Edit the code below to plot the `degree` on the x-axis and `mean` on the y-axis. Describe what this plot shows.
+
+```{r, eval = FALSE}
+ggplot(auto_rmse, aes(x = ----, y = ----)) + 
+  geom_line() +
+  geom_pointrange() + 
+  labs(x = "Degree",
+       y = "Cross validation error",
+       title = ---)
+```
+

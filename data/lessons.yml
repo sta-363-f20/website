@@ -62,7 +62,7 @@ lessons:
     video: "https://youtu.be/Tmckb1JLJQk"
   - date: "Thurs, Sep 17"
     title: "Lab 02: Cross-validation"
-    lab: "coming-soon.html"
+    lab: "02-cv.html"
   - title: "Week 05"
   - date: "Tues, Sep 22"
     title: "Matrix Algebra Review"
