@@ -61,7 +61,7 @@ These will start in class and should be finished by 5pm ET the following day.
 
 #### Labs
 
-The objective of the labs is to give you hands on experience with data analysis using modern statistical software. Labs will be completed in two parts. **Part 1** you will complete **on your own** by the following class day at 5pm ET (i.e. if the lab is assigned on Thursday, it will be due at 5pm ET on the following Tuesday). If you copy someone else's work, both parties will receive a grade of 0.  Part 1 will count towards 70% of your Lab grade. Then **Part 2** will open - this the same lab to be completed **collaboratively**. This will be one document that the whole class will collaborate on to generate a "collaborative key" for the assignment. At the bottom of the document you will be responsible for writing what your specific contribution to this document was. Contributions can include things such as "Provided solution for Question 2", "Offered feedback for Question 4", "Provided code for Question 1", "Edited solutions for grammar", etc. Part 2 will count towards 30% of your Lab grade.
+The objective of the labs is to give you hands on experience with data analysis using modern statistical software. You are welcome to work on these with other members of this class. If you do so, please acknowledge your collaborator(s) at the top of your assignment, for example: "Collaborators: Gertrude Cox, Florence Nightingale David". Failure to acknowledge collaborators will result in a grade of 0. You **may not** copy answers directly from another student. If you copy someone else's work, both parties will receive a grade of 0.
 
 The lab with the lowest score for each student will be dropped.
 
