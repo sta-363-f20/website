@@ -79,7 +79,7 @@ You can use the `poly()` function to fit a model with a polynomial term. For exa
 
 5. Fit the same three models, but instead of the validation set approach, perform 5-fold cross validation. Make sure to set a seed so you get the same answer each time you run the analysis. Calculate the overall 5-fold cross validation error for each of the three models. Which model would you chose?
 
-6. The tidymodels package allows you to do this faster! Instead of having a fit 3 (or more!) different models to determine the best flexibility, you can (1) create a **recipe** to specify how you would like to fit a model and then (2) **tune** this model to determine the best output. Copy the code before. What do you think the line `step_poly(horsepower, degree = tune())` does? Hint: you can run `?step_poly` in the Console to learn more about this function.
+6. The tidymodels package allows you to do this faster! Instead of having a fit 3 (or more!) different models to determine the best flexibility, you can (1) create a **recipe** to specify how you would like to fit a model and then (2) **tune** this model to determine the best output. Copy the code below. What do you think the line `step_poly(horsepower, degree = tune())` does? Hint: you can run `?step_poly` in the Console to learn more about this function.
 
 ```{r}
 auto_prep <- Auto %>%
