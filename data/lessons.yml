@@ -66,6 +66,7 @@ lessons:
   - title: "Week 05"
   - date: "Tues, Sep 22"
     appex: "04-linear-reg.html"
+    reading: "03-reading.html"
     title: "Introduction to Linear Regression"
     video: "https://youtu.be/bql1fYXmwlE"
     slides: "07-linear-regression"
