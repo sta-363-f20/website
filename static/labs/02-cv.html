@@ -565,7 +565,7 @@ color: #333333;
 </ol>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">ggplot</span>(auto_rmse, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="op">----</span>, <span class="dt">y =</span> <span class="op">----</span>)) <span class="op">+</span><span class="st"> </span></span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="st">  </span><span class="kw">geom_pointrange</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="st">  </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean <span class="op">-</span><span class="st"> </span>std_err, <span class="dt">ymax =</span> mean <span class="op">+</span><span class="st"> </span>std_err)) <span class="op">+</span><span class="st"> </span></span>
 <span id="cb4-4"><a href="#cb4-4"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Degree&quot;</span>,</span>
 <span id="cb4-5"><a href="#cb4-5"></a>       <span class="dt">y =</span> <span class="st">&quot;Cross validation error&quot;</span>,</span>
 <span id="cb4-6"><a href="#cb4-6"></a>       <span class="dt">title =</span> <span class="op">---</span>)</span></code></pre></div>

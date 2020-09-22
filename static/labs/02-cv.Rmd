@@ -104,7 +104,7 @@ auto_tune <- tune_grid(lm_spec,
 ```{r, eval = FALSE}
 ggplot(auto_rmse, aes(x = ----, y = ----)) + 
   geom_line() +
-  geom_pointrange() + 
+  geom_pointrange(aes(ymin = mean - std_err, ymax = mean + std_err)) + 
   labs(x = "Degree",
        y = "Cross validation error",
        title = ---)
