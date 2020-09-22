@@ -72,7 +72,7 @@ We are trying to decide between three models of varying flexibility:
 
 ```{marginfigure}
 You can use the `poly()` function to fit a model with a polynomial term. For example, to fit the model $y = \beta_0 + \beta_1 \texttt{x} + \beta_2 \texttt{x}^2 + \beta_3 \texttt{x}^3 + \epsilon$, you would run
-`lm(y ~ poly(x, 3), data = data)`
+`fit(lm_spec, y ~ poly(x, 3), data = data)`
 ```
 
 4. Fit the three models outlined above on the **training** data. Using the model created on the training data, predict `mpg` in the test data set for each model. What is the test RMSE for the three models? Which model would you choose?
