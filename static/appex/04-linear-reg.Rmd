@@ -40,12 +40,3 @@ $$RSS = (\mathbf{y} - \mathbf{X}\hat\beta)^T(\mathbf{y}-\mathbf{X}\hat\beta)$$
 10. Solve for $\hat\beta$
 
 $$-2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\hat\beta = 0$$
-
-Use the code below to get started.
-
-```{r}
-library(ISLR) 
-hitters_cc <- Hitters[complete.cases(Hitters), ]
-```
-
-
