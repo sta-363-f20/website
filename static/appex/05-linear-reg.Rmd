@@ -28,7 +28,6 @@ output: html_document
 ---
 ```
 5. Give your work a sensible title
-6. After adding your derivation to the file (remember you can incorporate $\LaTeX$ by wrapping in `$$`), knit it.
 6. When you've finished, upload the .html file to Canvas
 
 
