@@ -1,0 +1,51 @@
+---
+title: "Application Exercise"
+output: 
+  tufte::tufte_html:
+    tufte_variant: "envisioned"
+    highlight: pygments
+    css: lab.css
+link-citations: yes
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE     # for regression output
+)
+```
+
+
+1. Open Rstudio Server Pro
+2. Create a new project
+3. Click File > New File > R Markdown
+4. Delete everything except for 
+```
+---
+title: "Untitled"
+output: html_document
+---
+```
+5. Give your work a sensible title
+6. After adding your derivation to the file (remember you can incorporate $\LaTeX$ by wrapping in `$$`), knit it.
+6. When you've finished, upload the .html file to Canvas
+
+1. Distribute (FOIL / get rid of the parentheses) the RSS equation
+
+$$RSS = (\mathbf{y} - \mathbf{X}\hat\beta)^T(\mathbf{y}-\mathbf{X}\hat\beta)$$
+
+9. Solve $\frac{\partial RSS}{\partial\hat\beta} =$
+
+10. Solve for $\hat\beta$
+
+$$-2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\hat\beta = 0$$
+
+Use the code below to get started.
+
+```{r}
+library(ISLR) 
+hitters_cc <- Hitters[complete.cases(Hitters), ]
+```
+
+

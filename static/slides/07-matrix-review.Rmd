@@ -1,0 +1,319 @@
+---
+title: "Matrix Review - Linear Regression"
+author: "Dr. D'Agostino McGowan"
+output:
+  xaringan::moon_reader:
+    css: "slides.css"
+    logo: img/icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+
+```{r child = "setup.Rmd"}
+```
+
+layout: true
+
+<div class="my-footer">
+<span>
+Dr. Lucy D'Agostino McGowan
+</span>
+</div> 
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(tidyverse)
+library(broom)
+library(ISLR)
+library(countdown)
+```
+
+
+---
+
+## Linear Regression Review
+
+.question[
+In linear regression, what are we minimizing? How can I write this in matrix form?
+]
+
+--
+
+* RSS!
+
+$$(\mathbf{y} - \mathbf{X}\hat\beta)^T(\mathbf{y}-\mathbf{X}\hat\beta)$$
+
+--
+
+.question[
+What is the solution ( $\hat\beta$ ) to this?
+]
+
+--
+
+$$\mathbf{(X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$
+
+---
+
+## Linear Regression Review
+
+.question[
+What is $\mathbf{X}$?
+]
+
+--
+
+- the design matrix!
+
+---
+
+## <i class="fas fa-pause-circle"></i> `Matrix fact`
+
+$$
+\begin{align}
+\mathbf{C} &= \mathbf{AB}\\
+\mathbf{C}^T &=\mathbf{B}^T\mathbf{A}^T
+\end{align}
+$$
+
+--
+
+## <i class="fas fa-edit"></i> `Try it!`
+
+* Distribute (FOIL / get rid of the parentheses) the RSS equation
+
+$$RSS = (\mathbf{y} - \mathbf{X}\hat\beta)^T(\mathbf{y}-\mathbf{X}\hat\beta)$$
+
+`r countdown(minutes = 2)`
+
+---
+
+## <i class="fas fa-pause-circle"></i> `Matrix fact`
+
+$$
+\begin{align}
+\mathbf{C} &= \mathbf{AB}\\
+\mathbf{C}^T &=\mathbf{B}^T\mathbf{A}^T
+\end{align}
+$$
+
+## <i class="fas fa-edit"></i> `Try it!`
+
+* Distribute (FOIL / get rid of the parentheses) the RSS equation
+
+$$
+\begin{align}
+RSS &= (\mathbf{y} - \mathbf{X}\hat\beta)^T(\mathbf{y}-\mathbf{X}\hat\beta) \\
+& = \mathbf{y}^T\mathbf{y}-\hat{\beta}^T\mathbf{X}^T\mathbf{y}-\mathbf{y}^T\mathbf{X}\hat\beta + \hat{\beta}^T\mathbf{X}^T\mathbf{X}\hat\beta
+\end{align}
+$$
+
+
+---
+
+## <i class="fas fa-pause-circle"></i> `Matrix fact`
+
+* the transpose of a scalar is a scalar
+--
+
+* $\hat\beta^T\mathbf{X}^T\mathbf{y}$ is a scalar 
+
+.question[
+Why? What are the dimensions of $\hat\beta^T$? What are the dimensions of $\mathbf{X}$? What are the dimensions of $\mathbf{y}$?
+]
+
+--
+
+* $(\mathbf{y}^T\mathbf{X}\hat\beta)^T = \hat\beta^T\mathbf{X}^T\mathbf{y}$
+
+
+--
+
+$$
+\begin{align}
+RSS &= (\mathbf{y} - \mathbf{X}\hat\beta)^T(\mathbf{y}-\mathbf{X}\hat\beta) \\
+& = \mathbf{y}^T\mathbf{y}-\hat{\beta}^T\mathbf{X}^T\mathbf{y}-\mathbf{y}^T\mathbf{X}\hat\beta + \hat{\beta}^T\mathbf{X}^T\mathbf{X}\hat\beta\\
+&=\mathbf{y}^T\mathbf{y}-2\hat{\beta}^T\mathbf{X}^T\mathbf{y} + \hat{\beta}^T\mathbf{X}^T\mathbf{X}\hat\beta\\
+\end{align}
+$$
+
+---
+
+## Linear Regression Review
+
+.question[
+To find the $\hat\beta$ that is going to minimize this RSS, what do we do? Why?
+]
+
+$$
+\begin{align}
+RSS &= (\mathbf{y} - \mathbf{X}\hat\beta)^T(\mathbf{y}-\mathbf{X}\hat\beta) \\
+& = \mathbf{y}^T\mathbf{y}-\hat{\beta}^T\mathbf{X}^T\mathbf{y}-\mathbf{y}^T\mathbf{X}\hat\beta + \hat{\beta}^T\mathbf{X}^T\mathbf{X}\hat\beta\\
+&=\mathbf{y}^T\mathbf{y}-2\hat{\beta}^T\mathbf{X}^T\mathbf{y} + \hat{\beta}^T\mathbf{X}^T\mathbf{X}\hat\beta\\
+\end{align}
+$$
+
+
+---
+
+## <i class="fas fa-pause-circle"></i> `Matrix fact`
+
+* When $\mathbf{a}$ and $\mathbf{b}$ are $p\times 1$ vectors
+
+$$\frac{\partial\mathbf{a}^T\mathbf{b}}{\partial\mathbf{b}}=\frac{\partial\mathbf{b}^T\mathbf{a}}{\partial\mathbf{b}}=\mathbf{a}$$
+
+--
+
+* When $\mathbf{A}$ is a symmetric matrix
+
+$$\frac{\partial\mathbf{b}^T\mathbf{Ab}}{\partial\mathbf{b}}=2\mathbf{Ab}=2\mathbf{b}^T\mathbf{A}$$
+
+--
+
+## <i class="fas fa-edit"></i> `Try it!`
+
+$$\frac{\partial RSS}{\partial\hat\beta} = $$
+
+* $RSS = \mathbf{y}^T\mathbf{y}-2\hat{\beta}^T\mathbf{X}^T\mathbf{y} + \hat{\beta}^T\mathbf{X}^T\mathbf{X}\hat\beta$
+
+`r countdown(minutes = 2)`
+
+---
+
+## Linear Regression Review
+
+.question[
+How did we get $\mathbf{(X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$?
+]
+
+$$RSS = \mathbf{y}^T\mathbf{y}-2\hat{\beta}^T\mathbf{X}^T\mathbf{y} + \hat{\beta}^T\mathbf{X}^T\mathbf{X}\hat\beta$$
+
+$$\frac{\partial RSS}{\partial\hat\beta}=-2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\hat\beta = 0$$
+
+---
+
+## <i class="fas fa-pause-circle"></i> `Matrix fact`
+
+$$\mathbf{A}\mathbf{A}^{-1} = \mathbf{I}$$
+
+--
+
+.question[
+What is $\mathbf{I}$?
+]
+
+--
+
+* identity matrix
+
+$$\mathbf{I}=\begin{bmatrix}  1 & 0&\dots & 0 \\   0&1 & \dots &0 \\   \vdots&\vdots&\ddots&\vdots\\   0 &    0 & \dots    & 1    \end{bmatrix}$$
+
+$$\mathbf{AI} = \mathbf{A}$$
+
+---
+
+## <i class="fas fa-edit"></i> `Try it!`
+
+* Solve for $\hat\beta$
+
+$$-2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\hat\beta = 0$$
+
+`r countdown(minutes = 2)`
+
+---
+
+## Linear Regression Review
+
+.question[
+How did we get $\mathbf{(X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$?
+]
+
+$$
+\begin{align}
+-2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\hat\beta &= 0\\
+2\mathbf{X}^T\mathbf{X}\hat\beta & = 2\mathbf{X}^T\mathbf{y} \\
+\mathbf{X}^T\mathbf{X}\hat\beta & =\mathbf{X}^T\mathbf{y} \\
+\end{align}
+$$
+
+---
+
+## Linear Regression Review
+
+.question[
+How did we get $\mathbf{(X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$?
+]
+
+$$
+\begin{align}
+-2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\hat\beta &= 0\\
+2\mathbf{X}^T\mathbf{X}\hat\beta & = 2\mathbf{X}^T\mathbf{y} \\
+\mathbf{X}^T\mathbf{X}\hat\beta & =\mathbf{X}^T\mathbf{y} \\
+(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{X}\hat\beta &=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\\
+\end{align}
+$$
+
+---
+
+## Linear Regression Review
+
+.question[
+How did we get $\mathbf{(X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$?
+]
+
+$$
+\begin{align}
+-2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\hat\beta &= 0\\
+2\mathbf{X}^T\mathbf{X}\hat\beta & = 2\mathbf{X}^T\mathbf{y} \\
+\mathbf{X}^T\mathbf{X}\hat\beta & =\mathbf{X}^T\mathbf{y} \\
+(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{X}\hat\beta &=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\\
+\underbrace{(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{X}}_{\mathbf{I}}\hat\beta &=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}
+\end{align}
+$$
+
+---
+
+## Linear Regression Review
+
+.question[
+How did we get $\mathbf{(X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$?
+]
+
+$$
+\begin{align}
+-2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\hat\beta &= 0\\
+2\mathbf{X}^T\mathbf{X}\hat\beta & = 2\mathbf{X}^T\mathbf{y} \\
+\mathbf{X}^T\mathbf{X}\hat\beta & =\mathbf{X}^T\mathbf{y} \\
+(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{X}\hat\beta &=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\\
+\underbrace{(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{X}}_{\mathbf{I}}\hat\beta &=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\\
+\mathbf{I}\hat\beta &= (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}
+\end{align}
+$$
+
+---
+## Linear Regression Review
+
+.question[
+How did we get $\mathbf{(X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$?
+]
+
+$$
+\begin{align}
+-2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\hat\beta &= 0\\
+2\mathbf{X}^T\mathbf{X}\hat\beta & = 2\mathbf{X}^T\mathbf{y} \\
+\mathbf{X}^T\mathbf{X}\hat\beta & =\mathbf{X}^T\mathbf{y} \\
+(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{X}\hat\beta &=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\\
+\underbrace{(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{X}}_{\mathbf{I}}\hat\beta &=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\\
+\mathbf{I}\hat\beta &= (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\\
+\hat\beta & = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}
+\end{align}
+$$
+
+
+---
+

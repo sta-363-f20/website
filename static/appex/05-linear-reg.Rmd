@@ -1,0 +1,46 @@
+---
+title: "Application Exercise"
+output: 
+  tufte::tufte_html:
+    tufte_variant: "envisioned"
+    highlight: pygments
+    css: lab.css
+link-citations: yes
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE     # for regression output
+)
+```
+
+
+1. Open Rstudio Server Pro
+2. Create a new project
+3. Click File > New File > R Markdown
+4. Delete everything except for 
+```
+---
+title: "Untitled"
+output: html_document
+---
+```
+5. Give your work a sensible title
+6. After adding your derivation to the file (remember you can incorporate $\LaTeX$ by wrapping in `$$`), knit it.
+6. When you've finished, upload the .html file to Canvas
+
+
+* Fit a linear model using the `mtcars` data frame predicting miles per gallon (`mpg`) from (`wt`)
+* Pull out the coefficients and confidence intervals using the `tidy()` function demonstrated. How do you interpret these?
+*  Using the linear model you fit previously (`mpg` from `wt` using the `mtcars` data) - calculate the p-value for the coefficient for weight? Interpret this value. What is the null hypothesis? What is the alternative hypothesis? Do you reject the null?
+* Using the model previously fit (using the `mtcars` data predicting miles per gallon from weight), pull out the F-statistic and $R^2$ using the `glance()` function. Interpret these values.
+
+Below is some code to get you started:
+
+```{r, eval = FALSE}
+library(tidymodels)
+library(tidyverse)
+```
+
