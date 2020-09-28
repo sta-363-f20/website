@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Logistic regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. D’Agostino McGowan" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Logistic regression
+### Dr. D’Agostino McGowan
+
+---
+
+
+
+
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+&lt;span&gt;
+Dr. Lucy D'Agostino McGowan &lt;i&gt;adapted from slides by Hastie &amp; Tibshirani&lt;/i&gt;
+&lt;/span&gt;
+&lt;/div&gt; 
+
+
+
+---
+
+## Recap
+
+* Last class we had a _linear regression_ refresher
+--
+
+* We covered how to write a linear model in _matrix_ form
+--
+
+* We learned how to minimize RSS to calculate `\(\hat{\beta}\)` with `\((\mathbf{X^TX)^{-1}X^Ty}\)`
+--
+
+* Linear regression is a great tool when we have a continuous outcome
+* We are going to learn some fancy ways to do even better in the future
+---
+
+class: center, middle
+
+# Classification
+
+---
+
+## Classification
+
+.question[
+What are some examples of classification problems?
+]
+* Qualitative response variable in an _unordered set_, `\(\mathcal{C}\)`  
+--
+
+  * `eye color` `\(\in\)` `{blue, brown, green}`
+  * `email` `\(\in\)` `{spam, not spam}`
+--
+
+* Response, `\(Y\)` takes on values in `\(\mathcal{C}\)`
+* Predictors are a vector, `\(X\)`
+--
+
+* The task: build a function `\(C(X)\)` that takes `\(X\)` and predicts `\(Y\)`, `\(C(X)\in\mathcal{C}\)` 
+--
+
+* Many times we are actually more interested in the _probabilities_ that `\(X\)` belongs to each category in `\(\mathcal{C}\)`
+
+---
+
+## Example: Credit card default
+
+![](09-logistic_files/figure-html/plot1-1.png)&lt;!-- --&gt;
+
+---
+
+## Can we use linear regression?
+
+We can code `Default` as
+
+`$$Y = \begin{cases} 0 &amp; \textrm{if }\texttt{No}\\ 1&amp;\textrm{if }\texttt{Yes}\end{cases}$$`
+Can we fit a linear regression of `\(Y\)` on `\(X\)` and classify as `Yes` if `\(\hat{Y}&gt; 0.5\)`?
+
+--
+
+* In this case of a **binary** outcome, linear regression is okay (it is equivalent to **linear discriminant analysis**, you can read more about that in your book!)
+* `\(E[Y|X=x] = P(Y=1|X=x)\)`, so it seems like this is a pretty good idea!
+* **The problem**: Linear regression can produce probabilities less than 0 or greater than 1 😱
+--
+.question[
+What may do a better job?
+]
+--
+
+* **Logistic regression!**
+
+---
+
+## Linear versus logistic regression
+
+![](09-logistic_files/figure-html/plot2-1.png)&lt;!-- --&gt;
+
+.question[
+Which does a better job at predicting the probability of default?
+]
+
+* The orange marks represent the response `\(Y\in\{0,1\}\)`
+
+---
+
+## Linear Regression
+
+What if we have `\(&gt;2\)` possible outcomes? For example, someone comes to the emergency room and we need to classify them according to their symptoms
+
+$$ 
+`\begin{align}
+Y = \begin{cases} 1&amp; \textrm{if }\texttt{stroke}\\2&amp;\textrm{if }\texttt{drug overdose}\\3&amp;\textrm{if }\texttt{epileptic seizure}\end{cases}
+\end{align}`
+$$
+
+.question[
+What could go wrong here?
+]
+--
+
+* The coding implies an _ordering_
+* The coding implies _equal spacing_ (that is the difference between `stroke` and `drug overdose` is the same as `drug overdose` and `epileptic seizure`)
+---
+
+## Linear Regression
+
+What if we have `\(&gt;2\)` possible outcomes? For example, someone comes to the emergency room and we need to classify them according to their symptoms
+
+$$ 
+`\begin{align}
+Y = \begin{cases} 1&amp; \textrm{if }\texttt{stroke}\\2&amp;\textrm{if }\texttt{drug overdose}\\3&amp;\textrm{if }\texttt{epileptic seizure}\end{cases}
+\end{align}`
+$$
+
+* Linear regression is **not** appropriate here
+* **Mutliclass logistic regression** or **discriminant analysis** are more appropriate
+
+---
+
+## Logistic Regression
+
+$$ 
+p(X) = \frac{e^{\beta_0+\beta_1X}}{1+e^{\beta_0+\beta_1X}}
+$$
+
+* Note: `\(p(X)\)` is shorthand for `\(P(Y=1|X)\)`
+* No matter what values `\(\beta_0\)`, `\(\beta_1\)`, or `\(X\)` take `\(p(X)\)` will always be between 0 and 1
+--
+
+* We can rearrange this into the following form:
+$$
+\log\left(\frac{p(X)}{1-p(X)}\right) = \beta_0 + \beta_1 X
+$$
+
+.question[
+What is this transformation called?
+]
+--
+
+* This is a **log odds** or **logit** transformation of `\(p(X)\)`
+
+---
+
+## Linear versus logistic regression
+
+![](09-logistic_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+Logistic regression ensures that our estimates for `\(p(X)\)` are between 0 and 1 🎉
+
+---
+
+## Maximum Likelihood
+
+.question[
+Refresher: How did we estimate `\(\hat\beta\)` in linear regression?
+
+]
+
+---
+
+## Maximum Likelihood
+
+.question[
+Refresher: How did we estimate `\(\hat\beta\)` in linear regression?
+
+]
+
+In logistic regression, we use **maximum likelihood** to estimate the parameters
+
+`$$\mathcal{l}(\beta_0,\beta_1)=\prod_{i:y_i=1}p(x_i)\prod_{i:y_i=0}(1-p(x_i))$$`
+--
+
+* This **likelihood** give the probability of the observed ones and zeros in the data
+* We pick `\(\beta_0\)` and `\(\beta_1\)` to maximize the likelihood
+* _We'll let `R` do the heavy lifting here_
+
+---
+
+## Let's see it in R
+
+.small[
+
+```r
+logistic_reg() %&gt;%
+  set_engine("glm") %&gt;%
+  fit(default ~ balance, 
+      data = Default) %&gt;%
+  tidy()
+```
+
+```
+## # A tibble: 2 x 5
+##   term         estimate std.error statistic   p.value
+##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept) -10.7      0.361        -29.5 3.62e-191
+## 2 balance       0.00550  0.000220      25.0 1.98e-137
+```
+]
+
+* Use the `logistic_reg()` function in R with the `glm` engine
+
+---
+
+## Making predictions
+
+.question[
+What is our estimated probability of default for someone with a balance of $1000?
+]
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -10.6513306 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3611574 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -29.49221 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; balance &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0054989 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0002204 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.95309 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+--
+
+$$
+\hat{p}(X) = \frac{e^{\hat{\beta}_0+\hat{\beta}_1X}}{1+e^{\hat{\beta}_0+\hat{\beta}_1X}}=\frac{e^{-10.65+0.0055\times 1000}}{1+e^{-10.65+0.0055\times 1000}}=0.006
+$$
+
+---
+
+## Making predictions
+
+.question[
+What is our estimated probability of default for someone with a balance of $2000?
+]
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -10.6513306 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3611574 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -29.49221 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; balance &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0054989 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0002204 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.95309 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+--
+
+$$
+\hat{p}(X) = \frac{e^{\hat{\beta}_0+\hat{\beta}_1X}}{1+e^{\hat{\beta}_0+\hat{\beta}_1X}}=\frac{e^{-10.65+0.0055\times 2000}}{1+e^{-10.65+0.0055\times 2000}}=0.586
+$$
+
+---
+
+## Logistic regression example
+
+Let's refit the model to predict the probability of default given the customer is a `student`
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -3.5041278 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0707130 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -49.554219 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; studentYes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4048871 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1150188 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.520181 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0004313 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+`$$P(\texttt{default = Yes}|\texttt{student = Yes}) = \frac{e^{-3.5041+0.4049\times1}}{1+e^{-3.5041+0.4049\times1}}=0.0431$$`
+--
+
+.question[
+How will this change if `student = No`?
+]
+
+--
+
+`$$P(\texttt{default = Yes}|\texttt{student = No}) = \frac{e^{-3.5041+0.4049\times0}}{1+e^{-3.5041+0.4049\times0}}=0.0292$$`
+
+---
+
+## Multiple logistic regression
+
+`$$\log\left(\frac{p(X)}{1-p(X)}\right)=\beta_0+\beta_1X_1+\dots+\beta_pX_p$$`
+`$$p(X) = \frac{e^{\beta_0+\beta_1X_1+\dots+\beta_pX_p}}{1+e^{\beta_0+\beta_1X_1+\dots+\beta_pX_p}}$$`
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -10.8690452 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4922555 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -22.080088 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; balance &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0057365 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0002319 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.737563 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; income &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000030 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000082 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.369815 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7115203 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; studentYes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.6467758 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2362525 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.737646 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0061881 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+--
+* Why is the coefficient for `student` negative now when it was positive before?
+
+---
+
+## Confounding
+
+![](09-logistic_files/figure-html/plot3-1.png)&lt;!-- --&gt;
+
+.question[
+What is going on here?
+]
+---
+
+## Confounding
+
+![](09-logistic_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+* Students tend to have higher balances than non-students
+  * Their **marginal** default rate is higher
+--
+
+* For each level of balance, students default less 
+  * Their **conditional** default rate is lower
+
+---
+
+## Logistic regression for more than two classes
+
+* So far we've discussed **binary** outcome data
+* We can generalize this to situations with **multiple** classes
+
+`$$P(Y=k|X) = \frac{e ^{\beta_{0k}+\beta_{1k}X_1+\dots+\beta_{pk}X_p}}{\sum_{l=1}^Ke^{\beta_{0l}+\beta_{1l}X_1+\dots+\beta_{pl}X_p}}$$`
+
+* Here we have a linear function for **each** of the `\(K\)` classes
+* This is known as **multinomial logistic regression**
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

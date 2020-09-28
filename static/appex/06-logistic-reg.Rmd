@@ -1,0 +1,55 @@
+---
+title: "Application Exercise"
+output: 
+  tufte::tufte_html:
+    tufte_variant: "envisioned"
+    highlight: pygments
+    css: lab.css
+link-citations: yes
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE     # for regression output
+)
+```
+
+
+1. Open Rstudio Server Pro
+2. Create a new project
+3. Click File > New File > R Markdown
+4. Delete everything except for 
+```
+---
+title: "Untitled"
+output: html_document
+---
+```
+5. Give your work a sensible title
+6. When you've finished, upload the .html file to Canvas
+
+
+5000 women were enrolled in a study and were randomly assigned to receive either letrozole or a placebo. The primary response variable of interest was disease-free survival.
+
+   |letrozole	| placebo	| total	
+---|----------|---------|------
+death or disease|	185	|341|	526
+no death or disease|	2390|	2241|	4631
+total|	2575|	2582|	5157
+
+* calculate the odds ratio of death or disease in the placebo group versus the treatment group
+* calculate the odds ratio of no death or disease in the treatment group versus the placebo group
+* calculate the odds ratio of death or disease in the treatment group versus the placebo group
+
+
+* Using the `Default` data from the `ISLR` package, fit a logistic regression model predicting whether a customer `defaults` with whether they are a `student` and their current `balance`.
+
+Here is some code to get you started:
+
+```{r}
+library(ISLR)
+data("Default")
+```
+

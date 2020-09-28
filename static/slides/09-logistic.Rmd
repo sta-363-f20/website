@@ -1,0 +1,430 @@
+---
+title: "Logistic regression"
+author: "Dr. D'Agostino McGowan"
+output:
+  xaringan::moon_reader:
+    css: "slides.css"
+    logo: img/icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+```{r child = "setup.Rmd"}
+```
+
+layout: true
+
+<div class="my-footer">
+<span>
+Dr. Lucy D'Agostino McGowan <i>adapted from slides by Hastie & Tibshirani</i>
+</span>
+</div> 
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+library(tidyverse)
+library(broom)
+library(tidymodels)
+library(gridExtra)
+library(ISLR)
+```
+
+---
+
+## Recap
+
+* Last class we had a _linear regression_ refresher
+--
+
+* We covered how to write a linear model in _matrix_ form
+--
+
+* We learned how to minimize RSS to calculate $\hat{\beta}$ with $(\mathbf{X^TX)^{-1}X^Ty}$
+--
+
+* Linear regression is a great tool when we have a continuous outcome
+* We are going to learn some fancy ways to do even better in the future
+---
+
+class: center, middle
+
+# Classification
+
+---
+
+## Classification
+
+.question[
+What are some examples of classification problems?
+]
+* Qualitative response variable in an _unordered set_, $\mathcal{C}$  
+--
+
+  * `eye color` $\in$ `{blue, brown, green}`
+  * `email` $\in$ `{spam, not spam}`
+--
+
+* Response, $Y$ takes on values in $\mathcal{C}$
+* Predictors are a vector, $X$
+--
+
+* The task: build a function $C(X)$ that takes $X$ and predicts $Y$, $C(X)\in\mathcal{C}$ 
+--
+
+* Many times we are actually more interested in the _probabilities_ that $X$ belongs to each category in $\mathcal{C}$
+
+---
+
+## Example: Credit card default
+
+```{r plot1, cache = TRUE, fig.height = 3.5}
+set.seed(1)
+Default %>%
+  sample_frac(size = 0.25) %>%
+  ggplot(aes(balance, income, color = default)) +
+  geom_point(pch = 4) +
+  scale_color_manual(values = c("cornflower blue", "red")) +
+  theme_classic() +
+  theme(legend.position = "top") -> p1
+
+p2 <- ggplot(Default, aes(x = default, y = balance, fill = default)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("cornflower blue", "red")) +
+  theme_classic() +
+  theme(legend.position = "none")
+
+p3 <- ggplot(Default, aes(x = default, y = income, fill = default)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("cornflower blue", "red")) +
+  theme_classic() +
+  theme(legend.position = "none")
+grid.arrange(p1, p2, p3, ncol = 3, widths = c(2, 1, 1))
+```
+
+---
+
+## Can we use linear regression?
+
+We can code `Default` as
+
+$$Y = \begin{cases} 0 & \textrm{if }\texttt{No}\\ 1&\textrm{if }\texttt{Yes}\end{cases}$$
+Can we fit a linear regression of $Y$ on $X$ and classify as `Yes` if $\hat{Y}> 0.5$?
+
+--
+
+* In this case of a **binary** outcome, linear regression is okay (it is equivalent to **linear discriminant analysis**, you can read more about that in your book!)
+* $E[Y|X=x] = P(Y=1|X=x)$, so it seems like this is a pretty good idea!
+* **The problem**: Linear regression can produce probabilities less than 0 or greater than 1 `r emo::ji("scream")`
+--
+.question[
+What may do a better job?
+]
+--
+
+* **Logistic regression!**
+
+---
+
+## Linear versus logistic regression
+
+```{r plot2, cache = TRUE}
+Default <- Default %>%
+  mutate(
+  p = glm(default ~ balance, data = Default, family = "binomial") %>%
+  predict(type = "response"),
+  p2 = lm(I(default == "Yes") ~ balance, data = Default) %>% predict(),
+  def = ifelse(default == "Yes", 1, 0)
+)
+
+
+Default %>%
+  sample_frac(0.25) %>%
+ggplot(aes(balance, p2)) +
+  geom_hline(yintercept = c(0, 1), lty = 2, size = 0.2) +
+  geom_line(color = "cornflower blue") +
+  geom_point(aes(balance, def), shape = "|", color = "orange") +
+  theme_classic() +
+  labs(y = "probability of default") -> p1
+
+Default %>%
+  sample_frac(0.25) %>%
+ggplot(aes(balance, p)) +
+  geom_hline(yintercept = c(0, 1), lty = 2, size = 0.2) +
+  geom_line(color = "cornflower blue") +
+  geom_point(aes(balance, def), shape = "|", color = "orange") +
+  theme_classic() +
+  labs(y = "probability of default") -> p2
+
+grid.arrange(p1, p2, ncol = 2)
+```
+
+.question[
+Which does a better job at predicting the probability of default?
+]
+
+* The orange marks represent the response $Y\in\{0,1\}$
+
+---
+
+## Linear Regression
+
+What if we have $>2$ possible outcomes? For example, someone comes to the emergency room and we need to classify them according to their symptoms
+
+$$ 
+\begin{align}
+Y = \begin{cases} 1& \textrm{if }\texttt{stroke}\\2&\textrm{if }\texttt{drug overdose}\\3&\textrm{if }\texttt{epileptic seizure}\end{cases}
+\end{align}
+$$
+
+.question[
+What could go wrong here?
+]
+--
+
+* The coding implies an _ordering_
+* The coding implies _equal spacing_ (that is the difference between `stroke` and `drug overdose` is the same as `drug overdose` and `epileptic seizure`)
+---
+
+## Linear Regression
+
+What if we have $>2$ possible outcomes? For example, someone comes to the emergency room and we need to classify them according to their symptoms
+
+$$ 
+\begin{align}
+Y = \begin{cases} 1& \textrm{if }\texttt{stroke}\\2&\textrm{if }\texttt{drug overdose}\\3&\textrm{if }\texttt{epileptic seizure}\end{cases}
+\end{align}
+$$
+
+* Linear regression is **not** appropriate here
+* **Mutliclass logistic regression** or **discriminant analysis** are more appropriate
+
+---
+
+## Logistic Regression
+
+$$ 
+p(X) = \frac{e^{\beta_0+\beta_1X}}{1+e^{\beta_0+\beta_1X}}
+$$
+
+* Note: $p(X)$ is shorthand for $P(Y=1|X)$
+* No matter what values $\beta_0$, $\beta_1$, or $X$ take $p(X)$ will always be between 0 and 1
+--
+
+* We can rearrange this into the following form:
+$$
+\log\left(\frac{p(X)}{1-p(X)}\right) = \beta_0 + \beta_1 X
+$$
+
+.question[
+What is this transformation called?
+]
+--
+
+* This is a **log odds** or **logit** transformation of $p(X)$
+
+---
+
+## Linear versus logistic regression
+
+```{r}
+grid.arrange(p1, p2, ncol = 2)
+```
+
+Logistic regression ensures that our estimates for $p(X)$ are between 0 and 1 `r emo::ji("tada")`
+
+---
+
+## Maximum Likelihood
+
+.question[
+Refresher: How did we estimate $\hat\beta$ in linear regression?
+
+]
+
+---
+
+## Maximum Likelihood
+
+.question[
+Refresher: How did we estimate $\hat\beta$ in linear regression?
+
+]
+
+In logistic regression, we use **maximum likelihood** to estimate the parameters
+
+$$\mathcal{l}(\beta_0,\beta_1)=\prod_{i:y_i=1}p(x_i)\prod_{i:y_i=0}(1-p(x_i))$$
+--
+
+* This **likelihood** give the probability of the observed ones and zeros in the data
+* We pick $\beta_0$ and $\beta_1$ to maximize the likelihood
+* _We'll let `R` do the heavy lifting here_
+
+---
+
+## Let's see it in R
+
+.small[
+```{r, echo = TRUE}
+logistic_reg() %>%
+  set_engine("glm") %>%
+  fit(default ~ balance, 
+      data = Default) %>%
+  tidy()
+```
+]
+
+* Use the `logistic_reg()` function in R with the `glm` engine
+
+---
+
+## Making predictions
+
+.question[
+What is our estimated probability of default for someone with a balance of $1000?
+]
+
+```{r}
+glm(default ~ balance, data = Default, family = "binomial") %>%
+  tidy() %>%
+  knitr::kable(format = "html")
+```
+
+--
+
+$$
+\hat{p}(X) = \frac{e^{\hat{\beta}_0+\hat{\beta}_1X}}{1+e^{\hat{\beta}_0+\hat{\beta}_1X}}=\frac{e^{-10.65+0.0055\times 1000}}{1+e^{-10.65+0.0055\times 1000}}=0.006
+$$
+
+---
+
+## Making predictions
+
+.question[
+What is our estimated probability of default for someone with a balance of $2000?
+]
+
+```{r}
+glm(default ~ balance, data = Default, family = "binomial") %>%
+  tidy() %>%
+  knitr::kable(format = "html")
+```
+
+--
+
+$$
+\hat{p}(X) = \frac{e^{\hat{\beta}_0+\hat{\beta}_1X}}{1+e^{\hat{\beta}_0+\hat{\beta}_1X}}=\frac{e^{-10.65+0.0055\times 2000}}{1+e^{-10.65+0.0055\times 2000}}=0.586
+$$
+
+---
+
+## Logistic regression example
+
+Let's refit the model to predict the probability of default given the customer is a `student`
+
+```{r}
+glm(default ~ student, data = Default, family = "binomial") %>%
+  tidy() %>%
+  knitr::kable(format = "html")
+```
+
+$$P(\texttt{default = Yes}|\texttt{student = Yes}) = \frac{e^{-3.5041+0.4049\times1}}{1+e^{-3.5041+0.4049\times1}}=0.0431$$
+--
+
+.question[
+How will this change if `student = No`?
+]
+
+--
+
+$$P(\texttt{default = Yes}|\texttt{student = No}) = \frac{e^{-3.5041+0.4049\times0}}{1+e^{-3.5041+0.4049\times0}}=0.0292$$
+
+---
+
+## Multiple logistic regression
+
+$$\log\left(\frac{p(X)}{1-p(X)}\right)=\beta_0+\beta_1X_1+\dots+\beta_pX_p$$
+$$p(X) = \frac{e^{\beta_0+\beta_1X_1+\dots+\beta_pX_p}}{1+e^{\beta_0+\beta_1X_1+\dots+\beta_pX_p}}$$
+
+```{r}
+glm(default ~ balance + income + student, data = Default, family = "binomial") %>%
+  tidy() %>%
+  knitr::kable(format = "html")
+```
+
+--
+* Why is the coefficient for `student` negative now when it was positive before?
+
+---
+
+## Confounding
+
+```{r plot3, cache = TRUE, fig.height = 2.25}
+Default %>%
+  mutate(balance_bin = case_when(
+    balance < 250 ~ 250,
+    balance < 500 ~ 500,
+    balance < 750 ~ 750,
+    balance < 1000 ~ 1000,
+    balance < 1250 ~ 1250,
+    balance < 1500 ~ 1500,
+    balance < 1750 ~ 1750,
+    balance < 2000 ~ 2000,
+    balance < 2250 ~ 2250,
+    TRUE ~ 2500
+  )) %>%
+  group_by(balance_bin, student) %>%
+  summarise(default_rate = mean(default == "Yes")) %>%
+  ggplot(aes(balance_bin, default_rate, color = student)) + 
+  geom_line() + 
+  scale_color_manual(values = c("cornflower blue", "orange")) + 
+  geom_hline(yintercept = c(mean(Default$default[Default$student == "Yes"] == "Yes"), mean(Default$default[Default$student == "No"] == "Yes")), color = c("orange", "cornflower blue"), lty = 2) +
+  xlim(c(500, 2250)) + 
+  labs(y = "Default rate", x = "Credit card balance") +
+  theme_classic() + 
+  theme(legend.position = "none") -> p1
+
+ggplot(Default, aes(student, balance, fill = student)) +
+  geom_boxplot() + 
+  scale_fill_manual(values = c("cornflower blue", "orange")) + 
+  theme_classic() + 
+  labs(y = "Credit card balance", x = "Student status") -> p2
+
+grid.arrange(p1, p2, ncol = 2)
+  
+```
+
+.question[
+What is going on here?
+]
+---
+
+## Confounding
+
+```{r, fig.height = 2.25}
+grid.arrange(p1, p2, ncol = 2)
+```
+
+* Students tend to have higher balances than non-students
+  * Their **marginal** default rate is higher
+--
+
+* For each level of balance, students default less 
+  * Their **conditional** default rate is lower
+
+---
+
+## Logistic regression for more than two classes
+
+* So far we've discussed **binary** outcome data
+* We can generalize this to situations with **multiple** classes
+
+$$P(Y=k|X) = \frac{e ^{\beta_{0k}+\beta_{1k}X_1+\dots+\beta_{pk}X_p}}{\sum_{l=1}^Ke^{\beta_{0l}+\beta_{1l}X_1+\dots+\beta_{pl}X_p}}$$
+
+* Here we have a linear function for **each** of the $K$ classes
+* This is known as **multinomial logistic regression**
+
+---
