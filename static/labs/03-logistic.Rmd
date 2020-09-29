@@ -62,11 +62,13 @@ $$\textrm{log}\left(\frac{p(X)}{1-p(X)}\right)=\beta_0+\beta_1X$$
 
 3. For this lab we are using the `Smarket` data. Examine this data set - how many observations are there? How many columns? What are the variables?
 
-4. Let's look at the correlation between all of the variables. To do this, if you haven't done so already, we need to install the `GGally` package. Run the following code in your Console **one time**. What can you learn from this visualization? Which pair of variables have the highest correlation?
+4. Let's look at the correlation between all of the variables. To do this, if you haven't done so already, we need to install the `GGally` package. Run the following code in your Console **one time**. 
 
 ```{r, eval = FALSE}
 install.packages("GGally")
 ```
+
+Then add the code below to your .Rmd file. What can you learn from this visualization? Which pair of variables have the highest correlation?
 
 ```{r, eval = FALSE}
 ggpairs(Smarket, lower = list(combo = wrap(ggally_facethist, binwidth = 0.5)), progress = FALSE)
