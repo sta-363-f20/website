@@ -12,7 +12,7 @@
 
 
 
-<title>Lab 02 - Cross Validation</title>
+<title>Lab 03 - Logistic Regression</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -495,80 +495,61 @@ color: #333333;
 
 
 
-<h1 class="title toc-ignore">Lab 02 - Cross Validation</h1>
+<h1 class="title toc-ignore">Lab 03 - Logistic Regression</h1>
 
 
 
-<p><strong>Due:</strong> Thursday 2020-09-22 at 5pm</p>
+<p><strong>Due:</strong> Tuesday 2020-10-06 at 5pm</p>
 <div id="getting-started" class="section level1">
 <h1>Getting started</h1>
 <ul>
 <li>Go to today’s module in Canvas - click “Download Lab .Rmd starter file”</li>
-<li>Go to RStudio Pro. Create a <strong>New Project</strong> by clicking File &gt; New Project &gt; New Directory. Name the directory something sensible (for example <code>02-lab-cv</code>)</li>
-<li>Upload the .Rmd starter file into this project and you’re ready to go!</li>
+<li>Go to RStudio Pro. Create a <strong>New Project</strong> by clicking File &gt; New Project &gt; New Directory. Name the directory something sensible (for example <code>03-lab-logistic</code>)</li>
+<li>Open a new .Rmd file and you’re ready to go!</li>
 </ul>
 </div>
 <div id="packages" class="section level1">
 <h1>Packages</h1>
-<p>In this lab we will work with three packages: <code>ISLR</code> which is a package that accompanies your textbook, <code>tidyverse</code> which is a collection of packages for doing data analysis in a “tidy” way, and <code>tidymodels</code> a collection of packages for statistical modeling.</p>
+<p>In this lab we will work with four packages: <code>ISLR</code> which is a package that accompanies your textbook, <code>tidyverse</code> which is a collection of packages for doing data analysis in a “tidy” way, <code>tidymodels</code> a collection of packages for statistical modeling, and <code>GGally</code>, a package to help us visualize the data.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse) </span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(tidymodels)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(ISLR)</span></code></pre></div>
-<p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;">The top portion of your R Markdown file (between the three dashed lines) is called YAML. It stands for “YAML Ain’t Markup Language”. It is a human friendly data serialization standard for all programming languages. All you need to know is that this area is called the YAML (we will refer to it as such) and that it contains meta information about your document.</span></span></p>
-<div id="yaml" class="section level2">
-<h2>YAML:</h2>
-<p>Open the R Markdown (Rmd) file in your project, change the author name to your name, and knit the document.</p>
-</div>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(ISLR)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(GGally)</span></code></pre></div>
 </div>
 <div id="data" class="section level1">
 <h1>Data</h1>
-<p>For this lab, we are using the <code>Auto</code> data from the <code>ISLR</code> package.</p>
+<p>For this lab, we are using the <code>Smarket</code> data from the <code>ISLR</code> package.</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
 <div id="conceptual-questions" class="section level2">
 <h2>Conceptual questions</h2>
 <ol style="list-style-type: decimal">
-<li><p>Explain how k-fold Cross Validation is implemented.</p></li>
-<li><p>What are the advantages / disadvantages of k-fold Cross Validation compared to the Validation Set approach? What are the advantages / disadvantages of k-fold Cross Validation compared to Leave-one-out Cross Validation?</p></li>
+<li>Using algebra, rearrange equation (1) below to get equation (2). Show all steps. <em>Be sure to use Latex, remember you can insert a Latex equation by wrapping it in <code>$$</code>.</em></li>
+</ol>
+<p>Equation (1)</p>
+<p><span class="math display">\[p(X)=\frac{e^{\beta_0+\beta_1X}}{1+e^{\beta_0+\beta_1X}}\]</span></p>
+<p>Equation (2)</p>
+<p><span class="math display">\[\textrm{log}\left(\frac{p(X)}{1-p(X)}\right)=\beta_0+\beta_1X\]</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Suppose that an individual has a 23% chance of defaulting on their credit card payment. What are the odds that they will default?</li>
 </ol>
 </div>
-<div id="k-fold-cross-validation" class="section level2">
-<h2>K-fold cross validation</h2>
-<p>We are trying to decide between three models of varying flexibility:</p>
-<ul>
-<li><strong>Model 1:</strong> <span class="math inline">\(\texttt{mpg} = \beta_0 + \beta_1 \texttt{horsepower} + \epsilon\)</span></li>
-<li><strong>Model 2:</strong> <span class="math inline">\(\texttt{mpg} = \beta_0 + \beta_1 \texttt{horsepower} + \beta_2 \texttt{horsepower}^2 + \epsilon\)</span></li>
-<li><strong>Model 3:</strong> <span class="math inline">\(\texttt{mpg} = \beta_0 + \beta_1 \texttt{horsepower} + \beta_2 \texttt{horsepower}^2 + \beta_3 \texttt{horsepower}^3 + \epsilon\)</span></li>
-</ul>
+<div id="logistic-regression" class="section level2">
+<h2>Logistic Regression</h2>
 <ol start="3" style="list-style-type: decimal">
-<li>Using the <code>Auto</code> data, split the data into <strong>two groups</strong> a training data set, saved as <code>Auto_train</code> and a testing data set, saved as <code>Auto_test</code>. <em>Be sure to set a seed to ensure that you get the same result each time you knit your document</em>.</li>
+<li><p>For this lab we are using the <code>Smarket</code> data. Examine this data set - how many observations are there? How many columns? What are the variables?</p></li>
+<li><p>Let’s look at the correlation between all of the variables. To do this, if you haven’t done so already, we need to install the <code>GGally</code> package. Run the following code in your Console <strong>one time</strong>. What can you learn from this visualization? Which pair of variables have the highest correlation?</p></li>
 </ol>
-<p><label for="tufte-mn-2" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-2" class="margin-toggle"><span class="marginnote"><span style="display: block;">You can use the <code>poly()</code> function to fit a model with a polynomial term. For example, to fit the model <span class="math inline"><span class="math inline">\(y = \beta_0 + \beta_1 \texttt{x} + \beta_2 \texttt{x}^2 + \beta_3 \texttt{x}^3 + \epsilon\)</span></span>, you would run <code>fit(lm_spec, y ~ poly(x, 3), data = data)</code></span></span></p>
-<ol start="4" style="list-style-type: decimal">
-<li><p>Fit the three models outlined above on the <strong>training</strong> data. Using the model created on the training data, predict <code>mpg</code> in the test data set for each model. What is the test RMSE for the three models? Which model would you choose?</p></li>
-<li><p>Fit the same three models, but instead of the validation set approach, perform 5-fold cross validation. Make sure to set a seed so you get the same answer each time you run the analysis. Calculate the overall 5-fold cross validation error for each of the three models. Which model would you chose?</p></li>
-<li><p>The tidymodels package allows you to do this faster! Instead of having a fit 3 (or more!) different models to determine the best flexibility, you can (1) create a <strong>recipe</strong> to specify how you would like to fit a model and then (2) <strong>tune</strong> this model to determine the best output. Copy the code below. What do you think the line <code>step_poly(horsepower, degree = tune())</code> does? Hint: you can run <code>?step_poly</code> in the Console to learn more about this function.</p></li>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;GGally&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">ggpairs</span>(Smarket, <span class="dt">lower =</span> <span class="kw">list</span>(<span class="dt">combo =</span> <span class="kw">wrap</span>(ggally_facethist, <span class="dt">binwidth =</span> <span class="fl">0.5</span>)), <span class="dt">progress =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li><p><strong>Inference</strong> Fit a logistic regression model to predict <code>Direction</code> using <code>Lag1</code>, <code>Lag2</code>, <code>Lag3</code>, <code>Lag4</code>, <code>Lag5</code>, and <code>Volume</code>. Show a table that contains the coefficients and p-values along with the confidence intervals for each of the 6 predictors. Which predictor has the smallest p-value? Interpret the coefficient, confidence interval, and p-value for this predictor.</p></li>
+<li><p><strong>Prediction</strong> Using 5-fold cross validation, fit the same logistic regression model as Exercise 5. What is the test Accuracy for this model? Interpret this result.</p></li>
+<li><p><strong>Inference</strong> Fit a logistic regression model to predict <code>Direction</code> using only <code>Lag1</code> and <code>Lag2</code>. Show a table that contains the coefficients and p-values along with the confidence intervals for each of the 2 predictors. Which predictor has the smallest p-value? Interpret the coefficient, confidence interval, and p-value for this predictor.</p></li>
+<li><p><strong>Prediction</strong> Using 5-fold cross validation, fit the same logistic regression model as Exercise 7. What is the test Accuracy for this model? Interpret this result.</p></li>
+<li><p>If you had to choose between the model fit in Exercise 5 and the one fit in Exercise 7, which would you choose? Why?</p></li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>auto_prep &lt;-<span class="st"> </span>Auto <span class="op">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="st">  </span><span class="kw">recipe</span>(mpg <span class="op">~</span><span class="st"> </span>horsepower) <span class="op">%&gt;%</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="st">  </span><span class="kw">step_poly</span>(horsepower, <span class="dt">degree =</span> <span class="kw">tune</span>())</span></code></pre></div>
-<ol start="7" style="list-style-type: decimal">
-<li>To <strong>tune</strong> this model, you will replace <code>fit_resamples</code> with <code>tune_grid</code>. The pseudo code to do this is below - you may need to update some names to match what you have named objects in your document. Add the code to <strong>tune</strong> your model based on the code below.</li>
-</ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>auto_tune &lt;-<span class="st"> </span><span class="kw">tune_grid</span>(lm_spec,</span>
-<span id="cb3-2"><a href="#cb3-2"></a>          auto_prep,</span>
-<span id="cb3-3"><a href="#cb3-3"></a>          <span class="dt">resamples =</span> auto_cv)</span></code></pre></div>
-<ol start="8" style="list-style-type: decimal">
-<li><p>Using the <code>collect_metrics</code> function, look at the RMSE for <code>auto_tune</code>. Which <code>degree</code> is preferable?</p></li>
-<li><p>You can plot the output from Exercise 8 to make it a bit easier to determine. First, save your output from Exercise 8 as <code>auto_metrics</code>. Then <em>filter</em> this data frame to only include rows where <code>.metric == &quot;rmse&quot;</code>. Save this filtered data frame as <code>auto_rmse</code>. Edit the code below to plot the <code>degree</code> on the x-axis and <code>mean</code> on the y-axis. Describe what this plot shows.</p></li>
-</ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">ggplot</span>(auto_rmse, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="op">----</span>, <span class="dt">y =</span> <span class="op">----</span>)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="st">  </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean <span class="op">-</span><span class="st"> </span>std_err, <span class="dt">ymax =</span> mean <span class="op">+</span><span class="st"> </span>std_err)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Degree&quot;</span>,</span>
-<span id="cb4-5"><a href="#cb4-5"></a>       <span class="dt">y =</span> <span class="st">&quot;Cross validation error&quot;</span>,</span>
-<span id="cb4-6"><a href="#cb4-6"></a>       <span class="dt">title =</span> <span class="op">---</span>)</span></code></pre></div>
 </div>
 </div>
 

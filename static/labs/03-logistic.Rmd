@@ -1,0 +1,86 @@
+---
+title: "Lab 03 - Logistic Regression"
+output: 
+  tufte::tufte_html:
+    tufte_variant: "envisioned"
+    highlight: pygments
+    css: lab.css
+link-citations: yes
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(tidymodels)
+library(ISLR)
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE     # for regression output
+)
+```
+
+**Due:** Tuesday 2020-10-06 at 5pm
+
+# Getting started
+
+- Go to today's module in Canvas - click "Download Lab .Rmd starter file"
+- Go to RStudio Pro. Create a **New Project** by clicking File > New Project > New Directory. Name the directory something sensible (for example `03-lab-logistic`)
+- Open a new .Rmd file and you're ready to go!
+
+
+# Packages
+
+In this lab we will work with four packages: `ISLR` which is a package that accompanies your textbook, `tidyverse` which is a collection of packages for doing data analysis in a "tidy" way, `tidymodels` a collection of packages for statistical modeling, and `GGally`, a package to help us visualize the data.
+
+```{r eval = FALSE}
+library(tidyverse) 
+library(tidymodels)
+library(ISLR)
+library(GGally)
+```
+
+# Data
+
+For this lab, we are using the `Smarket` data from the `ISLR` package.
+
+# Exercises
+
+## Conceptual questions
+
+1. Using algebra, rearrange equation (1) below to get equation (2). Show all steps. _Be sure to use Latex, remember you can insert a Latex equation by wrapping it in `$$`._
+
+Equation (1)
+
+$$p(X)=\frac{e^{\beta_0+\beta_1X}}{1+e^{\beta_0+\beta_1X}}$$
+
+Equation (2)
+
+$$\textrm{log}\left(\frac{p(X)}{1-p(X)}\right)=\beta_0+\beta_1X$$
+
+2. Suppose that an individual has a 23% chance of defaulting on their credit card payment. What are the odds that they will default?
+
+## Logistic Regression
+
+3. For this lab we are using the `Smarket` data. Examine this data set - how many observations are there? How many columns? What are the variables?
+
+4. Let's look at the correlation between all of the variables. To do this, if you haven't done so already, we need to install the `GGally` package. Run the following code in your Console **one time**. What can you learn from this visualization? Which pair of variables have the highest correlation?
+
+```{r, eval = FALSE}
+install.packages("GGally")
+```
+
+```{r, eval = FALSE}
+ggpairs(Smarket, lower = list(combo = wrap(ggally_facethist, binwidth = 0.5)), progress = FALSE)
+```
+5. **Inference** Fit a logistic regression model to predict `Direction` using `Lag1`, `Lag2`, `Lag3`, `Lag4`, `Lag5`, and `Volume`. Show a table that contains the coefficients and p-values along with the confidence intervals for each of the 6 predictors. Which predictor has the smallest p-value? Interpret the coefficient, confidence interval, and p-value for this predictor.
+
+
+6. **Prediction** Using 5-fold cross validation, fit the same logistic regression model as Exercise 5. What is the test Accuracy for this model? Interpret this result.
+
+
+7. **Inference** Fit a logistic regression model to predict `Direction` using only `Lag1` and `Lag2`. Show a table that contains the coefficients and p-values along with the confidence intervals for each of the 2 predictors. Which predictor has the smallest p-value? Interpret the coefficient, confidence interval, and p-value for this predictor.
+
+
+8. **Prediction** Using 5-fold cross validation, fit the same logistic regression model as Exercise 7. What is the test Accuracy for this model? Interpret this result.
+
+
+9. If you had to choose between the model fit in Exercise 5 and the one fit in Exercise 7, which would you choose? Why?

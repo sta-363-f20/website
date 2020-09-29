@@ -29,7 +29,7 @@ options(
 
 # Packages
 
-In this lab we will work with two packages: `ISLR` which is a package that accompanies your textbook, `tidyverse` which is a collection of packages for doing data analysis in a "tidy" way, and `tidymodels` a collection of packages for statistical modeling.
+In this lab we will work with three packages: `ISLR` which is a package that accompanies your textbook, `tidyverse` which is a collection of packages for doing data analysis in a "tidy" way, and `tidymodels` a collection of packages for statistical modeling.
 
 ```{r eval = FALSE}
 library(tidyverse) 
