@@ -91,6 +91,7 @@ lessons:
     video: "https://youtu.be/ebCgNLFVRW8"
   - title: "Logistic Regression"
     slides: "09-logistic.html"
+    reading: "04-reading.html"
     video: "https://youtu.be/OBgKNh65E0k"
   - title: "What are the Odds? (Part 1)"
     slides: "09-odds.html"
