@@ -73,14 +73,16 @@ ggpairs(Smarket, lower = list(combo = wrap(ggally_facethist, binwidth = 0.5)), p
 ```
 5. **Inference** Fit a logistic regression model to predict `Direction` using `Lag1`, `Lag2`, `Lag3`, `Lag4`, `Lag5`, and `Volume`. Show a table that contains the coefficients and p-values along with the confidence intervals for each of the 6 predictors. Which predictor has the smallest p-value? Interpret the coefficient, confidence interval, and p-value for this predictor.
 
+6. **Inference** Exponentiate the results from Exercise 5. Interpret the _odds ratio_ for the same predictor you selected in Exercise 5.
 
-6. **Prediction** Using 5-fold cross validation, fit the same logistic regression model as Exercise 5. What is the test Accuracy for this model? Interpret this result.
-
-
-7. **Inference** Fit a logistic regression model to predict `Direction` using only `Lag1` and `Lag2`. Show a table that contains the coefficients and p-values along with the confidence intervals for each of the 2 predictors. Which predictor has the smallest p-value? Interpret the coefficient, confidence interval, and p-value for this predictor.
+7. **Prediction** Using 5-fold cross validation, fit the same logistic regression model as Exercise 5. What is the test Accuracy for this model? Interpret this result.
 
 
-8. **Prediction** Using 5-fold cross validation, fit the same logistic regression model as Exercise 7. What is the test Accuracy for this model? Interpret this result.
+8. **Inference** Fit a logistic regression model to predict `Direction` using only `Lag1` and `Lag2`. Show a table that contains the coefficients and p-values along with the confidence intervals for each of the 2 predictors. Which predictor has the smallest p-value? Interpret the coefficient, confidence interval, and p-value for this predictor.
+
+9. **Inference** Exponentiate the results from Exercise 8. Interpret the _odds ratio_ for the same predictor you selected in Exercise 8.
+
+8. **Prediction** Using 5-fold cross validation, fit the same logistic regression model as Exercise 8. What is the test Accuracy for this model? Interpret this result.
 
 
-9. If you had to choose between the model fit in Exercise 5 and the one fit in Exercise 7, which would you choose? Why?
+9. If you had to choose between the model fit in Exercise 5 and the one fit in Exercise 8, which would you choose? Why?

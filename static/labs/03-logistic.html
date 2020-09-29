@@ -545,10 +545,12 @@ color: #333333;
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">ggpairs</span>(Smarket, <span class="dt">lower =</span> <span class="kw">list</span>(<span class="dt">combo =</span> <span class="kw">wrap</span>(ggally_facethist, <span class="dt">binwidth =</span> <span class="fl">0.5</span>)), <span class="dt">progress =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <ol start="5" style="list-style-type: decimal">
 <li><p><strong>Inference</strong> Fit a logistic regression model to predict <code>Direction</code> using <code>Lag1</code>, <code>Lag2</code>, <code>Lag3</code>, <code>Lag4</code>, <code>Lag5</code>, and <code>Volume</code>. Show a table that contains the coefficients and p-values along with the confidence intervals for each of the 6 predictors. Which predictor has the smallest p-value? Interpret the coefficient, confidence interval, and p-value for this predictor.</p></li>
+<li><p><strong>Inference</strong> Exponentiate the results from Exercise 5. Interpret the <em>odds ratio</em> for the same predictor you selected in Exercise 5.</p></li>
 <li><p><strong>Prediction</strong> Using 5-fold cross validation, fit the same logistic regression model as Exercise 5. What is the test Accuracy for this model? Interpret this result.</p></li>
 <li><p><strong>Inference</strong> Fit a logistic regression model to predict <code>Direction</code> using only <code>Lag1</code> and <code>Lag2</code>. Show a table that contains the coefficients and p-values along with the confidence intervals for each of the 2 predictors. Which predictor has the smallest p-value? Interpret the coefficient, confidence interval, and p-value for this predictor.</p></li>
-<li><p><strong>Prediction</strong> Using 5-fold cross validation, fit the same logistic regression model as Exercise 7. What is the test Accuracy for this model? Interpret this result.</p></li>
-<li><p>If you had to choose between the model fit in Exercise 5 and the one fit in Exercise 7, which would you choose? Why?</p></li>
+<li><p><strong>Inference</strong> Exponentiate the results from Exercise 8. Interpret the <em>odds ratio</em> for the same predictor you selected in Exercise 8.</p></li>
+<li><p><strong>Prediction</strong> Using 5-fold cross validation, fit the same logistic regression model as Exercise 8. What is the test Accuracy for this model? Interpret this result.</p></li>
+<li><p>If you had to choose between the model fit in Exercise 5 and the one fit in Exercise 8, which would you choose? Why?</p></li>
 </ol>
 </div>
 </div>
