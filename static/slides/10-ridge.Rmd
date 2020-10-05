@@ -618,7 +618,7 @@ What would this be if $\lambda$ was 0?
 --
 
 .question[
-Is this bigger or smaller than $\sigma(\mathbf{X}^T\mathbf{X})^{-1}$? What is this when $\lambda = 0$? As $\lambda\rightarrow\infty$ does this go up or down? 
+Is this bigger or smaller than $\sigma^2(\mathbf{X}^T\mathbf{X})^{-1}$? What is this when $\lambda = 0$? As $\lambda\rightarrow\infty$ does this go up or down? 
 ]
 
 ---
