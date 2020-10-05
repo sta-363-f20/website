@@ -111,6 +111,7 @@ lessons:
   - title: "Ridge Regression (Part 1)"
     slides: "10-ridge.html"
     appex: "07-ridge.html"
+    reading: "05-reading.html"
     video: "https://youtu.be/HZdXY35Cm54"
   - title: "Ridge Regression (Part 2)"
     video: "https://youtu.be/GL4Y-u_Cm0k"

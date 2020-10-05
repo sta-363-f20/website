@@ -1,5 +1,5 @@
 ---
-title: "Reading 04"
+title: "Reading 05"
 output: 
   html_document: 
     theme: yeti
@@ -12,4 +12,4 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Required:
 
-- ISLR Section 4.3
+- ISLR Sections 6.1.3 and 6.2.1
