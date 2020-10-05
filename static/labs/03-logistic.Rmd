@@ -22,7 +22,6 @@ options(
 
 # Getting started
 
-- Go to today's module in Canvas - click "Download Lab .Rmd starter file"
 - Go to RStudio Pro. Create a **New Project** by clicking File > New Project > New Directory. Name the directory something sensible (for example `03-lab-logistic`)
 - Open a new .Rmd file and you're ready to go!
 
