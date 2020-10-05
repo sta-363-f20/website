@@ -1,0 +1,48 @@
+---
+title: "Application Exercise"
+output: 
+  tufte::tufte_html:
+    tufte_variant: "envisioned"
+    highlight: pygments
+    css: lab.css
+link-citations: yes
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE     # for regression output
+)
+```
+
+
+1. Open Rstudio Server Pro
+2. Create a new project
+3. Click File > New File > R Markdown
+4. Delete everything except for 
+```
+---
+title: "Untitled"
+output: html_document
+---
+```
+5. Give your work a sensible title
+6. When you've finished, upload the .html file to Canvas
+
+* In R, find a design matrix `X` where it is not possible to calculate $\hat\beta$ 
+
+```{r, eval = FALSE}
+solve(t(X) %*% X) %*% t(X) %*% y
+```
+
+* Calculate the determinant of the following matrices in R using the `det()` function:
+
+$$\mathbf{A} = \begin{bmatrix} 1 & 2 \\ 4 & 5 \end{bmatrix}$$
+
+$$\mathbf{B} = \begin{bmatrix} 1 & 2 & 3 \\ 3 & 6 & 9 \\ 2 & 5 & 7\end{bmatrix}$$
+* Are these both invertible?
+
+* Find $\hat\beta$ that minimizes this:
+
+$$(\mathbf{y}-\mathbf{X}\beta)^T(\mathbf{y}-\mathbf{X}\beta)+\lambda\beta^T\beta$$

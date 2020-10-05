@@ -106,7 +106,11 @@ lessons:
     lab: "03-logistic.html"
   - title: "Week 07"
   - date: "Tues, Oct 6"
-    title: "Ridge Regression"
+  - title: "Odds and Logistic Walk Through"
+    video:
+  - title: "Ridge Regression (Part 1)"
+    slides: "10-ridge.html"
+    appex: "07-ridge.html"
   - date: "Thurs, Oct 8"
     title: "Lasso & Elastic Net"
   - title: "Week 08"
