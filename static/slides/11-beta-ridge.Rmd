@@ -1,0 +1,121 @@
+---
+title: "Deriving the Ridge Solution"
+author: "Dr. D'Agostino McGowan"
+output:
+  xaringan::moon_reader:
+    css: "slides.css"
+    logo: img/icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+
+```{r child = "setup.Rmd"}
+```
+
+layout: true
+
+<div class="my-footer">
+  <span>
+  Dr. Lucy D'Agostino McGowan
+</span>
+</div> 
+
+---
+
+## Ridge Regression
+
+* Foil!
+
+$$\begin{align}
+&RSS + \lambda\beta^T\beta\\
+\end{align}$$
+
+---
+
+## Ridge Regression
+
+* Foil!
+
+$$\begin{align}
+&RSS + \lambda\beta^T\beta\\
+&(\mathbf{y}-\mathbf{X}\beta)^T(\mathbf{y}-\mathbf{X}\beta)+\lambda\beta^T\beta\\
+\end{align}$$
+
+---
+## Ridge Regression
+
+* Foil!
+
+$$\begin{align}
+&RSS + \lambda\beta^T\beta\\
+&(\mathbf{y}-\mathbf{X}\beta)^T(\mathbf{y}-\mathbf{X}\beta)+\lambda\beta^T\beta\\
+&\mathbf{y}^T\mathbf{y}-2\beta^T\mathbf{X}^T\mathbf{y}+\beta^T\mathbf{X}^T\mathbf{X}\beta+\lambda\beta^T\beta\\
+\end{align}$$
+
+---
+
+## Ridge Regression
+
+* Take the derivative
+
+$$\frac{\partial \mathbf{y}^T\mathbf{y}-2\beta^T\mathbf{X}^T\mathbf{y}+\beta^T\mathbf{X}^T\mathbf{X}\beta+\lambda\beta^T\beta}{\partial\beta}$$
+--
+
+$$-2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\beta+2\lambda\beta$$
+
+---
+
+## Ridge Regression 
+
+* Set it equal to 0, solve for $\beta$
+
+$$\begin{align}0 &= -2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\beta+2\lambda\beta\\
+\end{align}$$
+---
+
+## Ridge Regression 
+
+* Set it equal to 0, solve for $\beta$
+
+$$\begin{align}0 &= -2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\beta+2\lambda\beta\\
+0&=-\mathbf{X}^T\mathbf{y}+\mathbf{X}^T\mathbf{X}\beta+\lambda\beta\\
+\end{align}$$
+---
+
+## Ridge Regression 
+
+* Set it equal to 0, solve for $\beta$
+
+$$\begin{align}0 &= -2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\beta+2\lambda\beta\\
+0&=-\mathbf{X}^T\mathbf{y}+\mathbf{X}^T\mathbf{X}\beta+\lambda\beta\\
+\mathbf{X}^T\mathbf{y}&=\mathbf{X}^T\mathbf{X}\beta+\lambda\beta\\
+\end{align}$$
+---
+
+## Ridge Regression 
+
+* Set it equal to 0, solve for $\beta$
+
+$$\begin{align}0 &= -2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\beta+2\lambda\beta\\
+0&=-\mathbf{X}^T\mathbf{y}+\mathbf{X}^T\mathbf{X}\beta+\lambda\beta\\
+\mathbf{X}^T\mathbf{y}&=\mathbf{X}^T\mathbf{X}\beta+\lambda\beta\\
+\mathbf{X}^T\mathbf{y}&=(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})\beta
+\end{align}$$
+
+---
+
+## Ridge Regression 
+
+* Set it equal to 0, solve for $\beta$
+
+$$\begin{align}0 &= -2\mathbf{X}^T\mathbf{y}+2\mathbf{X}^T\mathbf{X}\beta+2\lambda\beta\\
+0&=-\mathbf{X}^T\mathbf{y}+\mathbf{X}^T\mathbf{X}\beta+\lambda\beta\\
+\mathbf{X}^T\mathbf{y}&=\mathbf{X}^T\mathbf{X}\beta+\lambda\beta\\
+\mathbf{X}^T\mathbf{y}&=(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})\beta\\
+(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}&=\beta
+\end{align}$$
