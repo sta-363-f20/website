@@ -1,0 +1,379 @@
+---
+title: "Confidence Intervals"
+author: "Dr. D'Agostino McGowan"
+output:
+  xaringan::moon_reader:
+    css: "slides-shared.css"
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+
+```{r child = "setup.Rmd"}
+```
+
+layout: true
+
+<div class="my-footer">
+  <span>
+  Dr. Lucy D'Agostino McGowan
+</span>
+</div> 
+
+---
+
+class: middle
+
+# confidence intervals
+
+If we use the same sampling method to select different samples and computed an interval estimate for each sample, we would expect the true population parameter ( $\beta_1$ ) to fall within the interval estimates 95% of the time.
+
+---
+
+## What it is **NOT**
+
+* 95% CI: (5-9)
+
+_We would expect the true population parameter to fall within 5 to 9 95% of the time_
+
+--
+
+<img src = "https://media.tenor.com/images/b9df0c0c41ff93838e8f837ffc54615a/tenor.gif" width = 400></img>
+
+---
+
+## What it is **NOT**
+
+* 95% CI: (5-9)
+
+~~We would expect the true population parameter to fall within 5 - 9 95% of the time~~
+
+<img src = "https://media.tenor.com/images/b9df0c0c41ff93838e8f837ffc54615a/tenor.gif" width = 400></img>
+
+
+---
+
+## What it is **NOT**
+
+* 95% CI: (5-9)
+
+~~We would expect the true population parameter to fall within 5 - 9 95% of the time~~
+
+.question[
+Why?
+]
+
+--
+
+* The "true population parameter" is **FIXED**!
+
+---
+
+## The true parameter is **FIXED**!
+
+<img src="https://media2.giphy.com/media/3orieOTNvHHCF41C9y/200w.gif" width = 500></img>
+
+--
+
+* *when we are talking about confidence intervals, which rely on Frequentist theory. If you take a Bayesian inference class, you will learn about _credible intervals_ which have different assumptions
+
+---
+
+## Example
+
+We are interested in the relationship between **Age** and **Wage**. To demonstrate what a _confidence interval_ is, I am going to construct a "truth" for the relationship in Lucy-land. 
+
+$$Wage = 2 \times Age + \epsilon$$
+
+--
+
+.question[
+What is the "true parameter" for the relationship between `Age` and `Wage`?
+]
+
+--
+
+* 2!
+---
+
+## Example
+
+We are interested in the relationship between **Age** and **Wage**. To demonstrate what a _confidence interval_ is, I am going to construct a "truth" for the relationship in Lucy-land. 
+
+$$Wage = 2 \times Age + \epsilon$$
+
+* Age ~ Normal(30, 10)
+* $\epsilon$ ~ Normal(0, 10)
+* Sample $n = 100$
+
+```{r}
+set.seed(7)
+n <- 100
+sample <- data.frame(
+  Age = rnorm(n, 30, 10)
+)
+sample$Wage <- 2 * sample$Age + rnorm(n, 0, 10)
+```
+
+---
+
+## Example
+
+We are interested in the relationship between **Age** and **Wage**. To demonstrate what a _confidence interval_ is, I am going to construct a "truth" for the relationship in Lucy-land. 
+
+$$Wage = 2 \times Age + \epsilon$$
+
+```{r}
+head(sample)
+```
+
+---
+
+## Example
+
+We are interested in the relationship between **Age** and **Wage**. To demonstrate what a _confidence interval_ is, I am going to construct a "truth" for the relationship in Lucy-land. 
+
+$$Wage = 2 \times Age + \epsilon$$
+
+```{r}
+n <- 100
+sample2 <- data.frame(
+  Age = rnorm(n, 30, 10)
+)
+sample2$Wage <- 2 * sample2$Age + rnorm(n, 0, 10)
+```
+
+---
+
+## Example 
+
+We are interested in the relationship between **Age** and **Wage**. To demonstrate what a _confidence interval_ is, I am going to construct a "truth" for the relationship in Lucy-land. 
+
+$$Wage = 2 \times Age + \epsilon$$
+.pull-left[
+```{r}
+head(sample)
+```
+
+]
+
+.pull-right[
+
+```{r}
+head(sample2)
+```
+
+]
+
+---
+
+## Example
+
+We are interested in the relationship between **Age** and **Wage**. To demonstrate what a _confidence interval_ is, I am going to construct a "truth" for the relationship in Lucy-land. 
+
+$$Wage = 2 \times Age + \epsilon$$
+Fit a linear model on the `sample`
+
+--
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(broom)
+lm(Wage ~ Age, sample) %>%
+  tidy(conf.int = TRUE) %>%
+  knitr::kable()
+```
+
+--
+
+### 95% CI: 1.81, 2.21
+
+
+
+---
+
+## Example
+
+.question[
+What percent of the time does the "true parameter" fall within this interval?
+]
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+lm(Wage ~ Age, sample) %>%
+  tidy(conf.int = TRUE) %>%
+  knitr::kable()
+```
+
+
+### 95% CI: 1.81, 2.21
+
+---
+
+## Example
+
+.question[
+What percent of the time does 2 fall within this interval?
+]
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+lm(Wage ~ Age, sample) %>%
+  tidy(conf.int = TRUE) %>%
+  knitr::kable()
+```
+
+
+### 95% CI: 1.81, 2.21
+
+
+
+---
+
+## Example
+
+We are interested in the relationship between **Age** and **Wage**. To demonstrate what a _confidence interval_ is, I am going to construct a "truth" for the relationship in Lucy-land. 
+
+$$Wage = 2 \times Age + \epsilon$$
+Fit a linear model on the `sample2`
+
+--
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+lm(Wage ~ Age, sample2) %>%
+  tidy(conf.int = TRUE) %>%
+  knitr::kable()
+```
+
+--
+
+### 95% CI: 1.89, 2.27
+
+---
+
+## Example
+
+.question[
+What percent of the time does 2 fall within this interval?
+]
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+lm(Wage ~ Age, sample2) %>%
+  tidy(conf.int = TRUE) %>%
+  knitr::kable()
+```
+
+
+### 95% CI: 1.89, 2.27
+
+---
+
+## Example
+
+
+```{r, echo = FALSE}
+data.frame(
+  lb = c(1.79, 1.92),
+  ub = c(2.21, 2.23),
+  id = c(1, 2)
+) -> cis
+cis %>%
+  ggplot(aes(y = id)) +
+  geom_linerange(aes(xmin = lb, xmax = ub)) + 
+  geom_vline(xintercept = 2, lty = 2) +
+  scale_y_continuous("Sample", limits = c(1, 10),
+                     breaks = 1:10)
+```
+
+---
+
+## Example
+
+```{r, echo = FALSE}
+get_ci <- function(id) {
+  tibble(
+    Age = rnorm(n, 30, 10),
+    Wage = 2 * Age + rnorm(n, 1, 10)
+  ) %>%
+    lm(Wage ~ Age, data = .) %>%
+    confint() %>%
+    .[2, ] -> ci
+  tibble(lb = ci[1],
+         ub = ci[2], 
+         id = id)
+}
+map_df(3:10, get_ci) %>%
+  bind_rows(cis) %>%
+  mutate(col = ifelse(lb > 2 | ub < 2, "yes", "no")) %>%
+  ggplot(aes(y = id, color = col)) +
+  geom_linerange(aes(xmin = lb, xmax = ub)) + 
+  geom_vline(xintercept = 2, lty = 2) +
+  scale_y_continuous("Sample",
+                     breaks = 1:10) +
+  scale_color_manual(values = c("black", "red")) +
+  theme(legend.position = "none")
+```
+--
+
+.question[
+What percent of the intervals contain the "true parameter"?
+]
+
+---
+
+## Example
+
+```{r, echo = FALSE}
+
+map_df(3:50, get_ci) %>%
+  bind_rows(cis) %>%
+  mutate(col = ifelse(lb > 2 | ub < 2, "yes", "no")) %>%
+  ggplot(aes(y = id, color = col)) +
+  geom_linerange(aes(xmin = lb, xmax = ub)) + 
+  geom_vline(xintercept = 2, lty = 2) +
+  scale_y_continuous("Sample") +
+  scale_color_manual(values = c("black", "red")) +
+  theme(legend.position = "none")
+```
+--
+
+.question[
+What percent of the intervals contain the "true parameter"
+]
+
+--
+
+## 48 / 50 = 96%
+
+---
+
+## Example
+
+```{r, echo = FALSE}
+
+map_df(3:100, get_ci) %>%
+  bind_rows(cis) %>%
+  mutate(col = ifelse(lb > 2 | ub < 2, "yes", "no")) %>%
+  ggplot(aes(y = id, color = col)) +
+  geom_linerange(aes(xmin = lb, xmax = ub)) + 
+  geom_vline(xintercept = 2, lty = 2) +
+  scale_y_continuous("Sample") +
+  scale_color_manual(values = c("black", "red")) +
+  theme(legend.position = "none")
+```
+
+## 95 / 100 = 95%
+
+---
+
+class: inverse
+
+## `r fontawesome::fa("laptop")` `Applicaton Exercise`
+
+* Watch me code this up in the next lecture video
+* Code along with me, or repeat the same steps to build an understanding about confidence intervals

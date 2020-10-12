@@ -128,7 +128,10 @@ lessons:
     slides: "11-lasso.html"
   - title: "Week 08"
   - date: "Tues, Oct 13"
-    title: "Variable Selection"
+    title: "More on Confidence Intervals"
+    slides: "12-ci.html"
+    video:
+    appex: "08-ci.html"
   - date: "Thurs, Oct 15"
     title: "Lab 04: Ridge, Lasso, and Elastic Net"
     lab: "coming-soon.html"
