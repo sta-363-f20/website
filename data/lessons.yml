@@ -130,8 +130,10 @@ lessons:
   - date: "Tues, Oct 13"
     title: "More on Confidence Intervals"
     slides: "12-ci.html"
-    video:
+    video: "https://youtu.be/yMKfEh3yqBU"
     appex: "08-ci.html"
+  - title: "Confidence Interval Coding Simulation"
+    video: "https://youtu.be/HDxdt1Crkm8"
   - date: "Thurs, Oct 15"
     title: "Lab 04: Ridge, Lasso, and Elastic Net"
     lab: "coming-soon.html"
