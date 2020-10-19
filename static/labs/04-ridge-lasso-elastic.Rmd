@@ -69,4 +69,4 @@ music <- read_csv("music.csv")
 5. Fit an elastic net model on the training set with $\lambda$ and $\alpha$ chosen using cross validation. Report the $\lambda$ chosen and explain why. Report the test root mean squared error obtained using testing portion of the initially split data frame.
 
 
-6. Comment on the results obtained. How accurately can we predict the latitude of where the music originated? Is there much difference among the test errors resulting from these four approaches?
+6. Comment on the results obtained. How well can we predict the latitude of where the music originated? Is there much difference among the test errors resulting from these four approaches?
