@@ -1,0 +1,45 @@
+---
+title: "Application Exercise"
+output: 
+  tufte::tufte_html:
+    tufte_variant: "envisioned"
+    highlight: pygments
+    css: lab.css
+link-citations: yes
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE     # for regression output
+)
+```
+
+
+1. Open Rstudio Server Pro
+2. Create a new project
+3. Click File > New File > R Markdown
+4. Delete everything except for 
+```
+---
+title: "Untitled"
+output: html_document
+---
+```
+5. Give your work a sensible title
+6. When you've finished, upload the .html file to Canvas
+
+
+$$pop = \beta_0 + \beta_1age + \beta_2age^2 + \beta_3age^3 +\beta_4age^4+ \epsilon$$
+
+Using the information below, write out the equation to predicted change in population from a change in age from the 25th percentile (24.5) to a 75th percentile (73.5).
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, eval = TRUE}
+library(tidyverse)
+co <- read.table("http://data.princeton.edu/eco572/datasets/cohhpop.dat",
+                 col.names=c("age","pop"), header=FALSE)
+lm(pop ~ age + I(age^2) + I(age^3) + I(age^4), data = co) %>%
+  broom::tidy() %>%
+  knitr::kable(digits = 4, format = "markdown")
+```

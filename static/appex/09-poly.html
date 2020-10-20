@@ -12,7 +12,7 @@
 
 
 
-<title>Lab 04 - Ridge Lasso Elastic Net</title>
+<title>Application Exercise</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -231,93 +231,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -453,7 +366,7 @@ padding-left: 90px;
 }
 ol>li:before {
 
-content: "Exercise " counter(li)".";
+content: "" counter(li)".";
 
 counter-increment: li;
 position: absolute;
@@ -495,47 +408,74 @@ color: #333333;
 
 
 
-<h1 class="title toc-ignore">Lab 04 - Ridge Lasso Elastic Net</h1>
+<h1 class="title toc-ignore">Application Exercise</h1>
 
 
 
-<p><strong>Due:</strong> Tuesday 2020-10-20 at 5:00pm</p>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>In this lab we are going to practice cross validation. A few reminders:</p>
-<ul>
-<li>Remember to label your chunks</li>
-<li>Write out your answers in full sentences, do not just rely on the R output</li>
-</ul>
-</div>
-<div id="packages" class="section level1">
-<h1>Packages</h1>
-<p>In this lab we will work with two packages: <code>tidyverse</code> which is a collection of packages for doing data analysis in a “tidy” way and <code>tidymodels</code> for statistical modeling.</p>
-<p>Now that the necessary packages are installed, you should be able to Knit your document and see the results.</p>
-<p>If you’d like to run your code in the Console as well you’ll also need to load the packages there. To do so, run the following in the console.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse) </span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(tidymodels)</span></code></pre></div>
-<p>Note that the packages are also loaded with the same commands in your R Markdown document.</p>
-</div>
-<div id="data" class="section level1">
-<h1>Data</h1>
-<p>For this lab, we are using a data frame currently in <code>music.csv</code>. This data frame includes 72 predictors that are components of audio files and one outcome, <code>lat</code>, the latitude of where the music originated. We are trying to predict the location of the music’s origin using audio components of the music.</p>
-<p>You can download this dataset from Canvas, then save it in the same directory as your .Rmd file and R project.</p>
-</div>
-<div id="exercises" class="section level1">
-<h1>Exercises</h1>
 <ol style="list-style-type: decimal">
-<li>Set a seed of <code>7</code>. Split the <code>music</code> data into a training and test set with 50% of the data in the training and 50% in the testing. Call your training set <code>music_train</code> and your testing set <code>music_test</code>. Describe these data sets (how many observations, how many variables).</li>
+<li>Open Rstudio Server Pro</li>
+<li>Create a new project</li>
+<li>Click File &gt; New File &gt; R Markdown</li>
+<li>Delete everything except for</li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>music &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;music.csv&quot;</span>)</span></code></pre></div>
-<ol start="2" style="list-style-type: decimal">
-<li><p>We are interested in predicting the latitude (<code>lat</code>) of the music’s origin from all other variables. Fit a linear model using least squares on the training set. Report the test root mean squared error obtained.</p></li>
-<li><p>Fit a ridge regression model on the training set with <span class="math inline">\(\lambda\)</span> chosen using 10-fold cross validation. Report the <span class="math inline">\(\lambda\)</span> chosen and explain why. Report the test root mean squared error obtained using testing portion of the initially split data frame.</p></li>
-<li><p>Fit a lasso model on the training set with <span class="math inline">\(\lambda\)</span> chosen using cross validation. Report the <span class="math inline">\(\lambda\)</span> chosen and explain why. Report the test root mean squared error obtained using testing portion of the initially split data frame.</p></li>
-<li><p>Fit an elastic net model on the training set with <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\alpha\)</span> chosen using cross validation. Report the <span class="math inline">\(\lambda\)</span> chosen and explain why. Report the test root mean squared error obtained using testing portion of the initially split data frame.</p></li>
-<li><p>Comment on the results obtained. How well can we predict the latitude of where the music originated? Is there much difference among the test errors resulting from these four approaches?</p></li>
+<pre><code>---
+title: &quot;Untitled&quot;
+output: html_document
+---</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Give your work a sensible title</li>
+<li>When you’ve finished, upload the .html file to Canvas</li>
 </ol>
-</div>
+<p><span class="math display">\[pop = \beta_0 + \beta_1age + \beta_2age^2 + \beta_3age^3 +\beta_4age^4+ \epsilon\]</span></p>
+<p>Using the information below, write out the equation to predicted change in population from a change in age from the 25th percentile (24.5) to a 75th percentile (73.5).</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">1672.0854</td>
+<td align="right">64.5606</td>
+<td align="right">25.8995</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="even">
+<td align="left">age</td>
+<td align="right">-10.6429</td>
+<td align="right">9.2268</td>
+<td align="right">-1.1535</td>
+<td align="right">0.2516</td>
+</tr>
+<tr class="odd">
+<td align="left">I(age^2)</td>
+<td align="right">-1.1427</td>
+<td align="right">0.3857</td>
+<td align="right">-2.9627</td>
+<td align="right">0.0039</td>
+</tr>
+<tr class="even">
+<td align="left">I(age^3)</td>
+<td align="right">0.0216</td>
+<td align="right">0.0059</td>
+<td align="right">3.6498</td>
+<td align="right">0.0004</td>
+</tr>
+<tr class="odd">
+<td align="left">I(age^4)</td>
+<td align="right">-0.0001</td>
+<td align="right">0.0000</td>
+<td align="right">-3.6540</td>
+<td align="right">0.0004</td>
+</tr>
+</tbody>
+</table>
 
 
 
