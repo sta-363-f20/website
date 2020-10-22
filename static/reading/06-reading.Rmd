@@ -1,0 +1,23 @@
+---
+title: "Reading 06"
+output: 
+  html_document: 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+I've heard several times that folks are feeling a bit burned out and overworked, particularly since we missed a Fall Break this semester SO I've put together a passive class for you today to get a little mental health break. Today's class won't have any application exercises or content assessments, you can just passively watch (or listen depending on which version you choose!) the lecture. You have two options for what you can do for today's class:
+
+Option 1
+
+Watch my lectures on some research I've been working on over the past few months to develop a mathematical framework to help assess contact tracing efficacy, along with an R package and Shiny application. This is based on a lecture I will be giving to the CDC's R group.
+
+Option 2
+
+Listen to my podcast from last week where I discuss some data that is being collected to help inform whether/when public schools should reopen along with an interview with Emily Oster, an economist at Brown.
+
+If you are in both of my classes, I encourage you to do both. I hope this helps a bit, both to give you a break and to show you some of the neat applications of statistics! I hope you know that I am thinking of you all and here for you if you need me!
