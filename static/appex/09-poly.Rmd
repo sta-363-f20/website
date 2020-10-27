@@ -33,7 +33,7 @@ output: html_document
 
 $$pop = \beta_0 + \beta_1age + \beta_2age^2 + \beta_3age^3 +\beta_4age^4+ \epsilon$$
 
-Using the information below, write out the equation to predicted change in population from a change in age from the 25th percentile (24.5) to a 75th percentile (73.5).
+Using the information below, write out the equation to predict the change in population from a change in age from the 25th percentile (24.5) to a 75th percentile (73.5).
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE, eval = TRUE}
 library(tidyverse)
