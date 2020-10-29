@@ -18,7 +18,7 @@ options(
 )
 ```
 
-**Due:** Thursday 2020-11-03 at 5:00pm
+**Due:** Tuesday 2020-11-03 at 5:00pm
 
 
 # Packages
