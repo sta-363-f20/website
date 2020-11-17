@@ -1,0 +1,76 @@
+---
+title: "Lab 06 - Ensemble models"
+output: 
+  tufte::tufte_html:
+    tufte_variant: "envisioned"
+    highlight: pygments
+    css: lab.css
+link-citations: yes
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(tidymodels)
+library(ISLR)
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE     # for regression output
+)
+```
+
+**Due:** Tuesday 2020-11-24 at 5:00pm
+
+
+# Packages
+
+In this lab we will work with three packages: `ISLR` for the data, `tidyverse` which is a collection of packages for doing data analysis in a "tidy" way and `tidymodels` for statistial modeling.
+
+Now that the necessary packages are installed, you should be able to Knit your document and see the results.
+
+If you'd like to run your code in the Console as well you'll also need to load the packages there. To do so, run the following in the console. 
+
+```{r eval = FALSE}
+library(tidyverse) 
+library(tidymodels)
+library(ISLR)
+```
+
+Note that the packages are also loaded with the same commands in your R Markdown document. 
+
+If you are working in your local RStudio, you may need to install the package to perform boosting. You can do this by running the following **once** in the console:
+
+```{r, eval = FALSE}
+install.packages("xgboost")
+```
+
+# Data
+
+For this lab, we are using `Carseats` data from the `ISLR` package.
+
+# Exercises
+
+
+1. Set a seed to `7`. Fit a **bagged** decision tree estimating the carseat `Sales` using the remaining 10 variables. You may specify the parameters in any way that you'd like, but **tune** the number of trees (`trees`), examining 10, 25, 50, 100, 200, and 300 trees.
+
+2. Collect the metrics from the bagged tree and filter them to only include the root mean squared error. Fill in the code below to plot these results. Describe what you see.
+
+
+```{r, eval = FALSE}
+ggplot(---, aes(x = trees, y = mean)) + 
+  geom_point() + 
+  geom_line() + 
+  labs(y = ---)
+```
+
+
+3. Set a seed to `7`. Fit a **random forest** estimating the carseat `Sales` using the remaining 10 variables. You may specify the parameters in any way that you'd like, but **tune** the number of trees (`trees`), examining 10, 25, 50, 100, 200, and 300 trees.
+
+4. Collect the metrics from the random forest tree and filter them to only include the root mean squared error. Using similar code as in Exercise 2, plot these results. Describe what you see.
+
+5. Set a seed to `7`. Fit a **boosted tree** estimating the carseat `Sales` using the remaining 10 variables. Specify the tree depth to be 1, the learn rate to 0.1, and **tune** the number of trees (`trees`), examining 10, 25, 50, 100, 200, and 300 trees.
+
+6. Collect the metrics from the boosted tree and filter them to only include the root mean squared error. Using similar code as in Exercise 2, plot these results. Describe what you see.
+
+7. Based on the exercises above and the number of trees attempted, which method would you prefer? What seems to be the optimal number of trees?
+
+8. **Extra Credit:** Combine the results from the previous exercises into a single plot to describe the relationship.
