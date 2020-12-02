@@ -237,5 +237,7 @@ lessons:
     title: "Honesty in Statistics and Trust in Experts"
   - date: "Thurs, Dec 3"
     title: "Lab 07: Final Lab"
-    lab: "coming-soon.html"
+    slides: "24-wrap-up.html"
+    video: ""
+    lab: "07-final-lab.html"
   

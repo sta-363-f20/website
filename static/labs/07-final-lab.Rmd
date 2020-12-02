@@ -1,0 +1,37 @@
+---
+title: "Lab 07 - Putting it all together"
+output: 
+  tufte::tufte_html:
+    tufte_variant: "envisioned"
+    highlight: pygments
+    css: lab.css
+link-citations: yes
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(tidymodels)
+library(ISLR)
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE     # for regression output
+)
+```
+
+**Due:** Tuesday 2020-12-08 at 5:00pm
+
+## Data
+
+This data was pulled from [Kaggle](https://www.kaggle.com/michaelkitchener/mbti-type-and-digital-footprints-for-reddit-users), uploaded by Michael Kitchener. The data provided is a _subset_ of this data set.
+
+> Each row contains an anonymized reddit user's MBTI personality type. Each column represents how much a user posts or comments in a particular subreddit. Specifically, the 'posts_ examplesubreddit' refers to how many of the users top 100 posts of all time are in 'r/examplesubreddit', and 'comments_examplesubreddit' refers to how many of the users most recent 100 comments are in 'r/examplesubreddit'.
+
+> This data was obtained using the PRAW (Reddit's API wrapper for python) to scrape a list of reddit users who comment on the r/mbti subreddit along with their self identified MBTI type (as illustrated in their flair). Then, for each user whose MBTI type we are aware of, we go through their top 100 posts and newest 100 comments to record the frequency of their interaction in various subreddits. Thus creating a user-footprint matrix.
+
+> The purpose of this data set is to see how well MBTI personality types (or even just specific traits i.e. extraversion vs. introversion) can be predicted on the basis of a user's subreddit interactions.
+
+You can download this dataset from Canvas, then save it in the same directory as your .Rmd file and R project. You will then load it into R using `read_csv` from the tidyverse package. If you don't recall how to do that, refer to Lab 04.
+
+## Exercise
+
+Using the data provided, build a prediction model predicting whether someone is an _introvert_ or an _extrovert_. You must try at least 3 different models, but more iterations are encouraged. Write a paragraph to describe what models you tried, what techniques you used, and your final results. Be sure to describe what assumptions and judgments, both about the data provided and the statistical decisions made, were made along the way to produce your result.

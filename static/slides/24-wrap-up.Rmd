@@ -1,0 +1,280 @@
+---
+title: "Wrap-up"
+author: "Dr. D'Agostino McGowan"
+output:
+  xaringan::moon_reader:
+    css: "slides.css"
+    logo: img/icon.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+
+```{r child = "setup.Rmd"}
+```
+
+layout: true
+
+<div class="my-footer">
+<span>
+Dr. Lucy D'Agostino McGowan
+</span>
+</div> 
+
+---
+
+## What have we learned?
+
+--
+* Supervised learning techniques
+--
+
+* Focused on **prediction**
+--
+
+* **bias-variance trade-off**
+
+---
+
+## How do we ensure that we aren't overfitting?
+
+* We _tune_ using an estimate of the _test error_ and find the model that minimizes this
+
+--
+
+.question[
+How do we estimate the test error?
+]
+
+* Cross-validation
+* Validation Set
+* A combination of both 
+
+---
+
+## Types of models
+
+* Regression
+* Classification
+
+---
+
+## Regression
+
+* Linear Regression
+--
+
+  * Ridge
+  * Lasso 
+  * Elastic net
+--
+
+* Regression Trees
+--
+
+* Ensemble Trees
+  * Bagged Trees
+  * Random Forest
+  * Boosted Trees
+  
+---
+
+class: center, middle
+
+# tidymodels
+
+```{r, message = FALSE, warning = FALSE}
+library(tidymodels)
+```
+
+---
+
+## Linear Regression in R
+
+```{r}
+mod_spec <- linear_reg() %>% #<<
+  set_engine("lm") #<<
+mod_spec
+```
+
+---
+
+## Ridge Regression in R
+
+```{r}
+mod_spec <- linear_reg(penalty = 10, mixture = 0) %>% #<<
+  set_engine("glmnet")
+mod_spec
+```
+
+---
+
+## Lasso in R
+
+```{r}
+mod_spec <- linear_reg(penalty = 10, mixture = 1) %>% #<<
+  set_engine("glmnet")
+mod_spec
+```
+
+---
+
+## Elastic net in R
+
+```{r}
+mod_spec <- linear_reg(penalty = 10, mixture = 0.5) %>% #<<
+  set_engine("glmnet")
+mod_spec
+```
+
+---
+
+## Regression Trees in R
+
+
+```{r}
+mod_spec <- decision_tree(mode = "regression") %>% #<<
+  set_engine("rpart")
+mod_spec
+```
+
+---
+
+## Bagging in R
+
+
+```{r}
+mod_spec <- rand_forest( #<<
+  mode = "regression", #<<
+  mtry = 10) %>% #<<
+  set_engine("ranger") #<<
+mod_spec
+```
+
+---
+
+
+## Random Forest in R
+
+
+```{r}
+mod_spec <- rand_forest( #<<
+  mode = "regression") %>% #<<
+  set_engine("ranger") #<<
+mod_spec
+```
+
+---
+
+
+## Boosting in R
+
+
+```{r}
+mod_spec <- boost_tree( #<<
+  mode = "regression") %>% #<<
+  set_engine("xgboost") #<<
+mod_spec
+```
+
+---
+
+## Classification
+
+* Logistic Regression
+--
+  
+  * Ridge
+  * Lasso
+  * Elastic net
+--
+
+* Classification Trees
+--
+
+* Ensemble Trees
+  * Bagged Trees
+  * Random Forest
+  * Boosted Trees
+  
+---
+
+## Logistic Regression in R
+
+```{r}
+mod_spec <- logistic_reg() %>% #<<
+  set_engine("glm") #<<
+mod_spec
+```
+
+---
+
+## Ridge (Logistic) in R
+
+```{r}
+mod_spec <- logistic_reg(penalty = 10, mixture = 0) %>% #<<
+  set_engine("glmnet")
+mod_spec
+```
+
+---
+
+## Lasso (Logistic) in R
+
+```{r}
+mod_spec <- logistic_reg(penalty = 10, mixture = 1) %>% #<<
+  set_engine("glmnet")
+mod_spec
+```
+
+---
+
+## Elastic net (Logistic) in R
+
+```{r}
+mod_spec <- logistic_reg(penalty = 10, mixture = 0.5) %>% #<<
+  set_engine("glmnet")
+mod_spec
+```
+
+---
+
+## Bagging in R
+
+```{r}
+mod_spec <- rand_forest( #<<
+  mode = "classification", #<<
+  mtry = 10) %>% #<<
+  set_engine("ranger") #<<
+mod_spec
+```
+
+---
+
+
+## Random Forest in R
+
+
+```{r}
+mod_spec <- rand_forest( #<<
+  mode = "classification") %>% #<<
+  set_engine("ranger") #<<
+mod_spec
+```
+
+---
+
+
+## Boosting in R
+
+
+```{r}
+mod_spec <- boost_tree( #<<
+  mode = "classification") %>% #<<
+  set_engine("xgboost") #<<
+mod_spec
+```
