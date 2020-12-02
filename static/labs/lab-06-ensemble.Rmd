@@ -23,7 +23,7 @@ options(
 
 # Packages
 
-In this lab we will work with three packages: `ISLR` for the data, `tidyverse` which is a collection of packages for doing data analysis in a "tidy" way and `tidymodels` for statistial modeling.
+In this lab we will work with three packages: `ISLR` for the data, `tidyverse` which is a collection of packages for doing data analysis in a "tidy" way and `tidymodels` for statistical modeling.
 
 Now that the necessary packages are installed, you should be able to Knit your document and see the results.
 
